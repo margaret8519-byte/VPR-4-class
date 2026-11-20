@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07172c">
+<meta name="description" content="Акванавты: русcкий язык ВПР 2027, 4 класс. Все 10 оригинальных вариантов со ссылками на источники, личными ответами и прогрессом.">
+<title>Акванавты · Русский язык · ВПР 2027 · 4 класс</title>
+<style>
+:root{--navy:#06162b;--deep:#0a2542;--panel:#0d2d4b;--line:rgba(141,224,255,.22);--cyan:#69edff;--aqua:#37d5dc;--violet:#a88aff;--gold:#ffd67d;--white:#edfaff;--muted:#a5c8d9}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--white);font:500 16px/1.5 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 12% 4%,#194d75 0,transparent 25%),radial-gradient(circle at 88% 18%,#29315b 0,transparent 24%),linear-gradient(145deg,#06152b,#092c4a 58%,#061527);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.22;background-image:radial-gradient(circle at 20% 30%,#a9f6ff 1px,transparent 2px),radial-gradient(circle at 76% 56%,#a9f6ff 1px,transparent 2px);background-size:130px 160px,210px 250px}
+a{color:var(--cyan)}
+button,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:1380px;margin:auto;padding:22px 22px 52px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.logo{font-weight:950;letter-spacing:.07em;font-size:21px;color:#fff;text-decoration:none}
+.logo span{color:var(--cyan)}
+.pill{font-size:12px;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:#073848;background:#b1f9ff;border-radius:100px;padding:8px 14px}
+.back{text-decoration:none;border:1px solid var(--line);border-radius:100px;padding:9px 14px;color:#e6fbff}
+.hero{position:relative;overflow:hidden;margin:24px 0 24px;border:1px solid rgba(133,234,255,.35);border-radius:28px;padding:35px;min-height:260px;background:linear-gradient(118deg,rgba(12,54,85,.97),rgba(14,33,71,.84));box-shadow:0 18px 55px #020e2480}
+.hero h1{max-width:780px;font-size:clamp(30px,4.5vw,55px);line-height:1.05;letter-spacing:-.035em;margin:15px 0}
+.hero p{max-width:640px;font-size:17px;color:#c7e9f6}
+.overline{color:var(--cyan);font-size:13px;letter-spacing:.19em;text-transform:uppercase;font-weight:900}
+.hero-graphic{position:absolute;right:6%;top:6%;font-size:145px;filter:drop-shadow(0 15px 32px #1ce4fc60);transform:rotate(-12deg);opacity:.9}
+.info{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.chip{background:#103e5c;border:1px solid var(--line);border-radius:12px;padding:7px 12px;font-size:13px;color:#c3f6ff}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap;margin:32px 0 14px}
+.section-head h2{font-size:25px;line-height:1.25;margin:0}
+.muted{color:var(--muted)}
+.source-note{border-left:3px solid #5fe7e9;padding:10px 15px;border-radius:7px;background:#0c354b;font-size:14px;color:#c8edf5;margin-bottom:18px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:1px solid rgba(129,231,255,.55);border-radius:13px;background:#113e5f;color:#eafcff;font-weight:850;padding:11px 16px;transition:transform .15s,border-color .15s,background .15s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover{transform:translateY(-2px);border-color:#a1f4ff;background:#165676}
+.btn.primary{background:linear-gradient(125deg,#62e8fc,#66c8fa);color:#06273d;border:none}
+.btn.gold{background:linear-gradient(125deg,#ffe8a2,#f9c874);color:#392b08;border:0}
+.btn.ghost{background:transparent}
+.btn.small{font-size:12px;padding:7px 11px;border-radius:9px}
+.btn.danger{border-color:#bd6779;color:#ffb7ca}
+.progressbar{height:10px;max-width:260px;width:100%;border-radius:20px;background:#163950;overflow:hidden}
+.progressbar>span{display:block;height:100%;width:0%;border-radius:inherit;background:linear-gradient(90deg,#2ad7dc,#a5f7fa)}
+.overall{display:flex;align-items:center;gap:12px;color:#c6f0f3;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.mission{position:relative;min-height:202px;padding:19px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(147deg,#133d5c,#0b263e);box-shadow:0 12px 25px #04111c5c;display:flex;flex-direction:column;gap:7px}
+.mission.active{outline:2px solid #74f7fd;box-shadow:0 0 25px #16dff03d}
+.mission.done{border-color:#78e3af}
+.mission-index{font-size:45px;line-height:1;font-weight:1000;letter-spacing:-.05em;color:var(--cyan)}
+.mission h3{font-size:15px;margin:6px 0 0}
+.mission .detail{font-size:12px;color:#b9d8e4;margin:0}
+.mission .mini{height:5px;background:#29536d;border-radius:10px;margin-top:auto;overflow:hidden}
+.mission .mini span{display:block;height:100%;background:var(--aqua)}
+.mission-controls{display:flex;gap:8px;margin-top:10px}
+.mission-controls .btn{flex:1;white-space:nowrap;padding:9px 10px}
+.workspace{display:none;margin-top:33px;border:1px solid var(--line);border-radius:26px;background:#0a2540;overflow:hidden;box-shadow:0 20px 50px #020a1ac2}
+.workspace.show{display:block}
+.worktop{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;background:linear-gradient(115deg,#104466,#102d4f)}
+.worktop h2{margin:0;font-size:25px}
+.worktop p{margin:5px 0 0}
+.partbar{display:flex;gap:10px;padding:13px 20px;background:#082139;flex-wrap:wrap}
+.tab{border:1px solid #315f7e;background:#123750;color:#d5f5f9;padding:10px 18px;border-radius:12px;font-weight:850}
+.tab.current{background:#77e9fa;border-color:#77e9fa;color:#062b42}
+.worklayout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;min-height:640px}
+.editor,.viewer{padding:21px;min-width:0}
+.editor{border-right:1px solid var(--line)}
+.viewer{background:#081d33}
+.viewer h3{margin:0 0 9px}
+.viewer p{color:#a8c9da;font-size:13px}
+.frame{height:620px;background:white;border-radius:13px;overflow:hidden;border:1px solid #4a849d}
+.frame iframe{width:100%;height:100%;border:0;background:#fff}
+.linkline{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+.timerbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:12px;border:1px solid #315c78;background:#103753;border-radius:15px;margin-bottom:15px}
+.clock{font-size:29px;font-weight:950;font-variant-numeric:tabular-nums;color:var(--gold);letter-spacing:.025em}
+.timertext{flex:1;font-size:13px;color:#bfdeec}
+.question{background:linear-gradient(135deg,#103753,#102f4a);border:1px solid rgba(125,196,228,.22);border-radius:16px;padding:15px;margin:13px 0}
+.question-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.question h4{font-size:16px;margin:0 0 10px}
+.question small{color:#9acedd}
+.question textarea{display:block;resize:vertical;width:100%;min-height:95px;color:#edfaff;background:#081d32;border:1px solid #3a6d8a;border-radius:12px;padding:12px;outline:none;line-height:1.5}
+.question textarea:focus{border-color:#69edff;box-shadow:0 0 0 3px #3eb9ca2d}
+.question textarea.large{min-height:185px}
+.editor-tools{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.saved{color:#8cf2d6;font-size:12px}
+.sourcefoot{margin:29px 0;color:#b6d7e5;font-size:12px}
+.toast{position:fixed;bottom:18px;right:18px;z-index:60;background:#d8fff7;color:#034238;padding:12px 17px;border-radius:13px;box-shadow:0 9px 27px #021525a0;display:none;font-weight:800;max-width:min(350px,90vw)}
+.toast.show{display:block}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}.hero-graphic{font-size:100px;right:2%}}
+@media(max-width:800px){.worklayout{grid-template-columns:1fr}.editor{border-right:0;border-bottom:1px solid var(--line)}.viewer{order:-1}.frame{height:380px}}
+@media(max-width:650px){.wrap{padding:12px 12px 45px}.hero{padding:23px}.hero-graphic{display:none}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.mission{min-height:198px;padding:12px}.mission-index{font-size:37px}.mission-controls{flex-wrap:wrap}.mission-controls .btn{font-size:12px}.worktop{padding:18px}.editor,.viewer{padding:13px}.overall{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="logo" href="../">🌊 АКВА<span>НАВТЫ</span></a><span class="pill">РУССКИЙ ЯЗЫК • 4 КЛАСС • ВПР 2027</span><a class="back" href="../">← Главная игра</a></header>
+<section class="hero">
+<div class="overline">Погружение в мир знаний</div>
+<h1>10 экспедиций<br>по русскому языку</h1>
+<p>Все 10 опубликованных вариантов ВПР-2027. Работаем с заданиями первоисточника, сохраняем свои ответы, следим за временем и открываем новые экспедиции без повторов.</p>
+<div class="info"><span class="chip">10 оригинальных источников</span><span class="chip">15 заданий в каждом</span><span class="chip">2 части • до 45 минут каждая</span><span class="chip">Без аудио</span></div>
+<div class="hero-graphic" aria-hidden="true">🫧</div>
+</section>
+<div class="source-note">📚 <strong>Задания и ответы принадлежат авторам первоисточника.</strong> Чтобы не заменять их выдуманными вопросами и не дублировать сторонние материалы на этом сайте, оригинальный вариант открывается по прямой ссылке и, если разрешает сайт-источник, в окне просмотра. Ответы записываются в собственном поле игрока. Автоматическая оценка развернутых ответов не выполняется.</div>
+<div class="section-head">
+<div><div class="overline">Карта путешествия</div><h2>Выбери тренировочный вариант</h2></div>
+<div class="actions"><button class="btn primary" id="next">🎲 Следующая непройденная экспедиция</button><button class="btn ghost" id="export">↓ Скачать мои ответы</button></div>
+</div>
+<div class="overall"><span id="totalcount">0 / 10 завершено</span><div class="progressbar"><span id="totalbar"></span></div><span id="taskcount">0 / 150 ответов</span></div>
+<div id="grid" class="grid" style="margin-top:17px"></div>
+<section id="workspace" class="workspace" aria-label="Рабочий стол варианта">
+<div class="worktop"><div><div class="overline">Исследовательская станция</div><h2 id="worktitle">Вариант №1</h2><p class="muted" id="workinfo">Оригинальная формулировка — на сайте источника</p></div><div class="actions"><a id="openoriginal" class="btn gold" target="_blank" rel="noopener noreferrer">↗ Открыть полный вариант</a><button class="btn ghost" id="closework">× Свернуть</button></div></div>
+<div class="partbar"><button class="tab current" id="part1">Часть 1 · № 1–3</button><button class="tab" id="part2">Часть 2 · № 4–15</button></div>
+<div class="worklayout">
+<div class="editor">
+<div class="timerbar"><div id="clock" class="clock">45:00</div><div class="timertext">Таймер выбранной части. Запускается вручную, время сохраняется на этом устройстве.</div><button class="btn small" id="timerstart">▶ Старт</button><button class="btn small ghost" id="timerreset">↻ 45:00</button></div>
+<div id="editorhint" class="muted" style="font-size:13px">Открой оригинальный вариант и вписывай свои ответы под соответствующими номерами.</div>
+<div id="questions"></div>
+<div class="editor-tools"><button class="btn primary" id="finishpart">✓ Отметить часть выполненной</button><button class="btn ghost" id="clearpart">Очистить ответы части</button><span class="saved" id="saveinfo">● Ответы сохраняются автоматически</span></div>
+<p class="muted" style="font-size:13px">Самопроверка проводится по авторским ответам и критериям внизу исходной страницы. Для диктанта и развернутых ответов предусмотрена ручная проверка — без фиктивных автоматических оценок.</p>
+</div>
+<div class="viewer"><h3>📖 Исходный вариант</h3><p>Справа или сверху открывается первоисточник. Если страница не отображается во встроенном окне, нажми «Открыть отдельно»: некоторые сайты запрещают показ во фрейме.</p><div class="frame"><iframe title="Оригинальный вариант ВПР на сайте Началка Плюс" id="sourceframe" loading="lazy" referrerpolicy="no-referrer"></iframe></div><div class="linkline"><a id="sourcebtn" class="btn gold" target="_blank" rel="noopener noreferrer">↗ Открыть отдельно</a><a class="btn ghost" href="https://onlyege.ru/10-trenirovochnyx-variantov-vpr-2027-po-russkomu-yazyku-4-klass/" target="_blank" rel="noopener noreferrer">Каталог 10 вариантов</a></div></div>
+</div>
+</section>
+<footer class="sourcefoot">Источники: <a href="https://onlyege.ru/10-trenirovochnyx-variantov-vpr-2027-po-russkomu-yazyku-4-klass/" target="_blank" rel="noopener noreferrer">OnlyEGE — перечень 10 вариантов</a>; <a href="https://nachalkaplus.ru/" target="_blank" rel="noopener noreferrer">Началка Плюс — авторские задания</a>. Здесь размещены ссылки и собственный бланк ответов, а не копия текстов материалов. Результаты сохраняются только в браузере.</footer>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+"use strict";
+const SOURCES = [
+"https://nachalkaplus.ru/trenirovochnyj-variant-1-vpr-2027-po-russkomu-yazyku-4-klass/",
+"https://nachalkaplus.ru/trenirovochnyj-variant-2-vpr-2027-po-russkomu-yazyku-4-klass/",
+"https://nachalkaplus.ru/trenirovochnyj-variant-3-vpr-2027-po-russkomu-yazyku-4-klass/",
+"https://nachalkaplus.ru/trenirovochnyj-variant-4-vpr-2027-po-russkomu-yazyku-4-klass/",
+"https://nachalkaplus.ru/trenirovochnyj-variant-5-vpr-2027-po-russkomu-yazyku-4-klass/",
+"https://nachalkaplus.ru/trenirovochnyj-variant-6-vpr-2027-po-russkomu-yazyku-4-klass/",
+"https://nachalkaplus.ru/trenirovochnyj-variant-7-vpr-2027-po-russkomu-yazyku-4-klass/",
+"https://nachalkaplus.ru/trenirovochnyj-variant-8-vpr-2027-po-russkomu-yazyku-4-klass/",
+"https://nachalkaplus.ru/trenirovochnyj-variant-9-vpr-2027-po-russkomu-yazyku-4-klass/",
+"https://nachalkaplus.ru/trenirovochnyj-variant-10-vpr-2027-po-russkomu-yazyku-4-klass/"
+];
+const STORE="aquanauts-vpr4-russian-2027-v1";
+let state={selected:0,part:1,records:{}};
+try {const saved=JSON.parse(localStorage.getItem(STORE)||"null"); if(saved&&saved.records)state={...state,...saved};}catch(e){}
+let timerHandle=null,toastHandle=null;
+const $=id=>document.getElementById(id);
+function record(n){
+if(!state.records[n])state.records[n]={answers:{},finished:{1:false,2:false},seconds:{1:2700,2:2700}};
+const r=state.records[n];r.answers ||= {};r.finished ||= {1:false,2:false};r.seconds ||= {1:2700,2:2700};return r;
+}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(state));}catch(e){notify("Не удалось сохранить данные браузера");}}
+function answered(r){return Array.from({length:15},(_,i)=>String(r.answers[i+1]||"").trim()).filter(Boolean).length;}
+function finished(r){return !!(r.finished[1]&&r.finished[2]);}
+function notify(msg){clearTimeout(toastHandle);$("toast").textContent=msg;$("toast").classList.add("show");toastHandle=setTimeout(()=>$("toast").classList.remove("show"),3500);}
+function make(tag,cl,txt){const e=document.createElement(tag);if(cl)e.className=cl;if(txt!==undefined)e.textContent=txt;return e;}
+function renderGrid(){
+const grid=$("grid");grid.replaceChildren();let done=0,ans=0;
+for(let n=1;n<=10;n++){
+const r=record(n);const count=answered(r);ans+=count;if(finished(r))done++;
+const card=make("article","mission"+(state.selected===n?" active":"")+(finished(r)?" done":""));
+card.append(make("div","mission-index",String(n).padStart(2,"0")));
+card.append(make("h3","", "Экспедиция № "+n));
+card.append(make("p","detail",finished(r)?"✅ Обе части завершены":count+" из 15 заданий заполнено"));
+const mini=make("div","mini");const bar=make("span");bar.style.width=Math.round(count/15*100)+"%";mini.append(bar);card.append(mini);
+const actions=make("div","mission-controls");
+const btn=make("button","btn small",state.selected===n?"Продолжить":"Начать");btn.onclick=()=>selectVariant(n);
+const link=make("a","btn small ghost","↗ Оригинал");link.href=SOURCES[n-1];link.target="_blank";link.rel="noopener noreferrer";
+actions.append(btn,link);card.append(actions);grid.append(card);
+}
+$("totalcount").textContent=done+" / 10 завершено";$("taskcount").textContent=ans+" / 150 ответов";$("totalbar").style.width=done*10+"%";
+}
+function selectVariant(n){
+stopTimer();state.selected=n;state.part=1;save();renderGrid();renderWork();
+$("workspace").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function selectPart(p){stopTimer();state.part=p;save();renderWork();}
+function renderWork(){
+const n=state.selected;if(!n){$("workspace").classList.remove("show");return}
+$("workspace").classList.add("show");$("worktitle").textContent="Вариант № "+n+" · Русский язык";
+const r=record(n),p=state.part;
+$("workinfo").textContent="Отвечено "+answered(r)+" / 15 · Часть "+p+" · Оригинальные задания — на сайте источника";
+$("part1").classList.toggle("current",p===1);$("part2").classList.toggle("current",p===2);
+$("part1").textContent="Часть 1 · № 1–3"+(r.finished[1]?" ✓":"");
+$("part2").textContent="Часть 2 · № 4–15"+(r.finished[2]?" ✓":"");
+$("sourceframe").src=SOURCES[n-1];$("openoriginal").href=SOURCES[n-1];$("sourcebtn").href=SOURCES[n-1];
+$("finishpart").textContent=r.finished[p]?"✓ Часть выполнена · отменить отметку":"✓ Отметить часть выполненной";
+$("editorhint").textContent=p===1?"Часть 1: диктант и анализ предложения. Перепиши ответы по оригинальному тексту. Аудио не используется.":"Часть 2: орфоэпия, орфография, анализ языка и работа с текстом. Следуй оригинальным формулировкам.";
+renderTimer();renderQuestions();
+}
+function renderQuestions(){
+const r=record(state.selected),p=state.part,container=$("questions");container.replaceChildren();
+const start=p===1?1:4,end=p===1?3:15;
+for(let i=start;i<=end;i++){
+const q=make("div","question");const top=make("div","question-top");top.append(make("h4","",i===1?"Задание № 1 · Диктант":"Задание № "+i));
+top.append(make("small","",String(r.answers[i]||"").trim()?"● Заполнено":"○ Не заполнено"));q.append(top);
+const area=make("textarea",i===1?"large":"");area.placeholder=i===1?"Запиши текст диктанта самостоятельно (или используй тетрадь)":"Запиши ответ на задание № "+i+" из оригинального варианта";area.setAttribute("aria-label","Ответ на задание № "+i);area.value=r.answers[i]||"";
+area.oninput=()=>{r.answers[i]=area.value;save();top.lastChild.textContent=area.value.trim()?"● Заполнено":"○ Не заполнено";renderGrid();$("workinfo").textContent="Отвечено "+answered(r)+" / 15 · Часть "+p+" · Оригинальные задания — на сайте источника";};
+q.append(area);container.append(q);
+}
+}
+function stopTimer(){if(timerHandle){clearInterval(timerHandle);timerHandle=null;}const b=$("timerstart");if(b)b.textContent="▶ Старт";}
+function renderTimer(){const r=record(state.selected),n=Math.max(0,r.seconds[state.part]);$("clock").textContent=String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0");}
+function toggleTimer(){
+if(timerHandle){stopTimer();return}
+const n=state.selected,p=state.part;if(record(n).seconds[p]<=0){notify("Время вышло. Можно обнулить таймер части.");return}
+$("timerstart").textContent="❚❚ Пауза";
+timerHandle=setInterval(()=>{const r=record(n);r.seconds[p]=Math.max(0,r.seconds[p]-1);renderTimer();save();if(r.seconds[p]<=0){stopTimer();notify("45 минут завершились. Сверь ответы по источнику.");}},1000);
+}
+function resetTimer(){stopTimer();record(state.selected).seconds[state.part]=2700;save();renderTimer();}
+function toggleFinished(){
+const r=record(state.selected),p=state.part;if(!r.finished[p]){
+const start=p===1?1:4,end=p===1?3:15;
+const count=Array.from({length:end-start+1},(_,i)=>String(r.answers[start+i]||"").trim()).filter(Boolean).length;
+if(count===0){notify("Сначала запиши хотя бы один ответ, затем отметь часть.");return}
+}
+r.finished[p]=!r.finished[p];save();renderGrid();renderWork();notify(r.finished[p]?"Часть отмечена как выполненная":"Отметка выполнения снята");
+}
+function clearPart(){
+if(!confirm("Очистить все ответы выбранной части? Это нельзя отменить."))return;
+const r=record(state.selected),p=state.part;for(let i=p===1?1:4;i<=(p===1?3:15);i++)delete r.answers[i];r.finished[p]=false;save();renderGrid();renderWork();notify("Ответы выбранной части очищены");
+}
+function chooseNext(){
+const from=state.selected||0;
+for(let offset=1;offset<=10;offset++){const n=((from+offset-1)%10)+1;if(!finished(record(n))){selectVariant(n);return}}
+notify("Все 10 экспедиций отмечены как пройденные!");
+}
+function exportAnswers(){
+const lines=["Акванавты — ВПР 2027 — русский язык, 4 класс","Личные ответы ученика. Задания и правильные ответы — на nachalkaplus.ru",""];
+for(let n=1;n<=10;n++){
+const r=record(n);if(!answered(r))continue;
+lines.push("=== Вариант № "+n+" ===",SOURCES[n-1]);
+for(let i=1;i<=15;i++)if(String(r.answers[i]||"").trim())lines.push("Задание № "+i+": "+r.answers[i]);
+lines.push("");
+}
+if(lines.length===3){notify("Пока нет сохранённых ответов.");return}
+const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="VPR-2027-russian-4-answers.txt";a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+$("next").onclick=chooseNext;$("export").onclick=exportAnswers;
+$("part1").onclick=()=>selectPart(1);$("part2").onclick=()=>selectPart(2);
+$("timerstart").onclick=toggleTimer;$("timerreset").onclick=resetTimer;
+$("finishpart").onclick=toggleFinished;$("clearpart").onclick=clearPart;
+$("closework").onclick=()=>{stopTimer();state.selected=0;save();renderGrid();renderWork();};
+if(!Number.isInteger(state.selected)||state.selected<0||state.selected>10)state.selected=0;
+if(state.part!==1&&state.part!==2)state.part=1;
+renderGrid();if(state.selected)renderWork();
+</script>
+</body>
+</html>
