@@ -926,6 +926,19 @@ body[data-subject="world"] .mission {
 .dictation-player { margin-bottom:10px; }
 .dictation-player p { margin:0 0 7px; }
 
+  .english-collection { margin: 1.25rem 0; padding: clamp(1rem, 3vw, 2rem); }
+  .english-collection .vpr-variants { margin-block: 1rem; }
+  .english-collection a { color: #d9ffb9; }
+  .english-collection .variant-source { margin-block: .75rem; }
+  .english-collection iframe {
+    display: block;
+    width: 100%;
+    height: clamp(27rem, 72vh, 58rem);
+    border: 1px solid #78bdad;
+    border-radius: .75rem;
+    background: #fff;
+  }
+  body[data-subject="english"] #points { visibility: hidden; }
 </style>
 <!-- Bundled font notices
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
@@ -2168,7 +2181,7 @@ License: CC-BY-4.0
 <main id="app"></main>
 <dialog id="help" class="card centered" aria-labelledby="help-title">
   <h2 id="help-title">Как играть</h2>
-  <p>Выбери предмет. После заданий проведи батискаф через риф или включи три контакта шлюза. Испытание открывает следующую локацию и приносит жетон.</p>
+  <p>В разделе «Английский язык» выбери вариант из подборки OnlyEGE. В игровых маршрутах после заданий проведи батискаф через риф или включи три контакта шлюза, чтобы открыть следующую локацию.</p>
   <p>За ответ с первой попытки без подсказки получишь 100 очков. С подсказкой, после повторной попытки или при самопроверке — 75. За ошибку очки не снимаются.</p>
   <p>Испытание приносит 120 очков, жемчужина — ещё 40, а финал — 200. В «Трофеях» можно выбрать раскраску батискафа. Таймера нет.</p>
   <p>«Продолжить» открывает первое нерешённое задание. На карте можно сменить вариант и вернуться к начатому позже. Игра запоминает прогресс в этом браузере.</p>
@@ -2382,93 +2395,6 @@ const russian = [
   ]
 ];
 
-const englishPlaces = [
-  {name:'Журнал экспедиции',icon:'📘',depth:'35 м',art:1,topic:'Reading · Чтение',part:'We',
-    story:'В журнале записано, как нашли черепаху и как за ней ухаживали. Прочитай записи, чтобы узнать, куда плыть дальше.',
-    reward:'Журнал прочитан. Теперь Пузырь знает, где находится коралловая лаборатория.'},
-  {name:'Лаборатория кораллов',icon:'🧪',depth:'52 м',art:2,topic:'Grammar · Грамматика',part:'protect',
-    story:'В инструкции к лаборатории пропали английские слова. Подбери подходящие формы и перезапусти панель.',
-    reward:'Панель ожила! В тоннеле загорелись указатели.'},
-  {name:'Тоннель указателей',icon:'🧭',depth:'74 м',art:3,topic:'Vocabulary · Лексика',part:'the',
-    story:'За каждым поворотом нужен новый английский пароль. Подбери слова, чтобы пройти к станции.',
-    reward:'Все указатели прочитаны. Перед тобой шлюз станции.'},
-  {name:'Картотека станции',icon:'🗂️',depth:'96 м',art:4,topic:'Fact file · Анкета',part:'ocean',
-    story:'Станция просит заполнить карточку юной исследовательницы. Найди сведения в её сообщении.',
-    reward:'Карточка заполнена. Осталось собрать английское послание из четырёх слов.'}
-];
-
-const turtleLog = [
-  'Last spring, Maya and her brother Tom found a small turtle on the beach. It was near some old fishing nets. Maya called the sea centre, and a worker came to help.',
-  'At the centre, the turtle lived in a quiet pool for two weeks. Maya visited it on Saturdays. When it was strong again, the workers took it back to the sea. Maya was happy to see it swim away.'
-];
-const diverProfile = [
-  'Hello! My name is Sophie Green. I am ten years old. I live in Brighton. I have a small dog called Pip.',
-  'My favourite subject is science. After school I like drawing. On Sundays I go swimming with my dad.'
-];
-const english = [
-  [
-    {title:'A turtle on the beach',prompt:'Прочитай запись в журнале и выбери ответ.',passage:turtleLog,
-      fields:[{label:'Who found the turtle with Maya?',choices:['Her dad.','Her brother.','A worker.'],answer:'Her brother.'}],
-      hint:'Найди имя Tom в первом предложении и прочитай, кем он приходится Майе.',
-      solution:'Her brother. Майя нашла черепаху вместе с братом Томом.'},
-    {title:'Two weeks at the centre',prompt:'Прочитай запись и выбери верное утверждение.',passage:turtleLog,
-      fields:[{label:'Which sentence is true?',choices:['The turtle lived at the centre for one week.','Maya visited the turtle on Sundays.','The turtle stayed in a quiet pool.'],answer:'The turtle stayed in a quiet pool.'}],
-      hint:'Во втором абзаце ищи слова «pool», «weeks» и название дня недели.',
-      solution:'The turtle stayed in a quiet pool. Она жила в тихом бассейне две недели. Майя приходила по субботам.'},
-    {title:'Back to the sea',prompt:'Выбери события в том порядке, в котором они произошли.',type:'order',passage:turtleLog,
-      cards:['The turtle went back to the sea.','Maya found a turtle on the beach.','The turtle stayed at the sea centre.'],answer:[1,2,0],
-      hint:'Сначала прочитай начало первого абзаца. Чем заканчивается второй?',
-      solution:'First, Maya found the turtle. Then it stayed at the centre. Finally, it went back to the sea.'}
-  ],
-  [
-    {title:'Every morning',prompt:'Выбери подходящую форму глагола.',
-      expression:'Every morning, Lucy ___ her torch before a dive.',
-      fields:[{label:'Complete the sentence',choices:['check','checks','checking'],answer:'checks'}],
-      hint:'Every morning указывает на привычку. Lucy — это she.',
-      solution:'Lucy checks her torch. В Present Simple после he, she, it к глаголу здесь добавляется -s.'},
-    {title:'By the hatch',prompt:'Вставь слова в пропуски.',expression:'There ___ two boxes by the hatch. The small box ___ blue.',
-      fields:[{label:'1. There ___ two boxes',choices:['is','are','am'],answer:'are'},{label:'2. The box ___ blue',choices:['is','are','am'],answer:'is'}],
-      hint:'Two boxes — множественное число, the small box — единственное.',
-      solution:'There are two boxes. The small box is blue.'},
-    {title:'Yesterday on the reef',prompt:'Выбери формы глаголов для рассказа о вчерашнем дне.',
-      expression:'Yesterday Ben ___ to the reef. He ___ three fish.',
-      fields:[{label:'1. Ben ___ to the reef',choices:['go','goes','went'],answer:'went'},{label:'2. He ___ three fish',choices:['see','saw','sees'],answer:'saw'}],
-      hint:'Yesterday — «вчера». Вспомни формы Past Simple глаголов go и see.',
-      solution:'Ben went to the reef. He saw three fish. Go → went, see → saw.'}
-  ],
-  [
-    {title:'Light in the tunnel',prompt:'Вставь слово, подходящее по смыслу.',
-      expression:'It is dark here. Turn on your ___.',
-      fields:[{label:'Choose the word',choices:['torch','hat','bottle'],answer:'torch'}],
-      hint:'Слова dark и turn on подсказывают, что нужно включить свет.',
-      solution:'Turn on your torch. Torch здесь значит «фонарик».'},
-    {title:'Where is the map?',prompt:'Карта под столом. Найди английское слово для пропуска.',
-      expression:'The map is ___ the table.',
-      fields:[{label:'Choose the word',choices:['on','under','in'],answer:'under'}],
-      hint:'On означает «на», in — «в». Какое слово значит «под»?',
-      solution:'The map is under the table. Under — «под».'},
-    {title:'A clean beach',prompt:'Выбери слово, подходящее по смыслу.',
-      expression:'Put the empty bottle in the ___. Keep the beach clean.',
-      fields:[{label:'Choose the word',choices:['pool','boat','bin'],answer:'bin'}],
-      hint:'Empty — «пустой». Куда нужно положить пустую бутылку, чтобы пляж остался чистым?',
-      solution:'Put it in the bin. Bin — мусорная корзина.'}
-  ],
-  [
-    {title:'Diver’s fact file',prompt:'Заполни поля анкеты по сообщению Софи. Возраст введи цифрами.',passage:diverProfile,
-      fields:[{label:'First name',answer:'sophie'},{label:'Age',answer:10}],
-      hint:'First name — имя. Ten означает десять.',
-      solution:'First name — Sophie. Age — 10.'},
-    {title:'Home and pet',prompt:'Заполни поля анкеты. В каждое поле впиши одно слово из текста.',passage:diverProfile,
-      fields:[{label:'Town',answer:'brighton'},{label:'Pet’s name',answer:'pip'}],
-      hint:'После «I live in» указан город, а после «called» — кличка питомца.',
-      solution:'Town — Brighton. Pet’s name — Pip.'},
-    {title:'After school',prompt:'Заполни последние поля анкеты. В каждое поле впиши одно слово из текста.',passage:diverProfile,
-      fields:[{label:'Favourite subject',answer:'science'},{label:'After-school hobby',answer:'drawing'}],
-      hint:'Найди предложения со словами «My favourite subject» и «After school».',
-      solution:'Favourite subject — science. After-school hobby — drawing.'}
-  ]
-];
-
 const worldPlaces = [
   {name:'Метеобухта',icon:'🌦️',depth:'12 м',topic:'Погода и материалы',part:'Компас',
     story:'На поверхности переменчивая погода. Определи день для выхода и проверь снаряжение, пока шторм не добрался до бухты.',
@@ -2569,7 +2495,7 @@ const world = [
       solution:'Пример для Подмосковья: берёза и сосна. У сосны длинные иголки и шишки. Сосновую древесину используют для изготовления мебели.'}
   ]
 ];
-const routeSets = { ...routes, russian, english, world };
+const routeSets = { ...routes, russian, english: [], world };
 
 function practice(title,prompt,hint,solution,extra) {
   return {title,prompt,hint,solution,...extra};
@@ -2837,88 +2763,6 @@ function russianVariant(data,n) {
   ];
 }
 const russianVariants = russianPractice.map(russianVariant);
-
-const englishPractice = [
-  {
-    story:'On Tuesday, Alice and her cousin Ben took a boat to a small island. They saw three seals on a rock. Ben drew the seals in his notebook. When the sun came out, the smallest seal jumped into the sea. Alice sent a photo to her teacher after the trip.',
-    question:['Who went to the island with Alice?',['Her cousin.','Her teacher.','Her brother.'],0,'Ben is her cousin.'],
-    fact:[['The seals were on a beach.','Ben drew the seals.','Alice sent a photo before the trip.'],1,'Ben drew the seals in his notebook.'],
-    sequence:['Alice and Ben took a boat.','Ben drew the seals.','Alice sent a photo.'],
-    grammar:[
-      ['Every Friday, Ben ___ pictures of sea animals.',['draw','draws','drawing'],1,'Ben — третье лицо, единственное число.'],
-      ['There ___ three seals on the rock.',['is','am','are'],2,'Three seals — три тюленя, множественное число.'],
-      ['Yesterday, Alice ___ to the island.',['go','went','goes'],1,'Вчера — Past Simple. Форма go в прошедшем времени — went.']
-    ],
-    words:[
-      ['A seal can ___.',['fly','swim','read'],1,'Тюлень плавает.'],
-      ['Ben draws with a ___.',['pencil','boot','rope'],0,'Нужно слово, обозначающее предмет для рисования.'],
-      ['The bag is ___ the chair. You can see it under the seat.',['on','in','under'],2,'Under the seat — под сиденьем.']
-    ],
-    profile:'My name is Adam Green. I am ten. I live in York. My favourite subject is maths. After school I like swimming. On Saturdays I help my aunt at the sea centre.',
-    fields:[[['First name','Adam'],['Surname','Green']],[['Age',10],['City','York']],[['Favourite subject','maths'],['After-school activity','swimming']]]
-  },
-  {
-    story:'Last Saturday, Ruby visited a beach with her class. Their teacher gave each child a pair of gloves. Ruby and Zoe filled a bag with empty bottles. After lunch, the class made a poster about keeping the beach clean. They put the poster by the school door on Monday.',
-    question:['When did Ruby visit the beach?',['On Monday.','On Sunday.','On Saturday.'],2,'Ruby visited the beach last Saturday.'],
-    fact:[['The class made a poster.','Ruby found a box of toys.','Zoe went to the beach by herself.'],0,'The class made a poster after lunch.'],
-    sequence:['The teacher gave the children gloves.','Ruby and Zoe collected bottles.','The class made a poster.'],
-    grammar:[
-      ['Zoe often ___ her class with posters.',['help','helps','helping'],1,'После she у глагола в Present Simple в этом случае есть окончание -s.'],
-      ['There ___ one poster by the door.',['are','is','be'],1,'One poster — один плакат.'],
-      ['Last week, Ruby ___ a poster at school.',['made','makes','make'],0,'Last week — Past Simple. Прошедшая форма make — made.']
-    ],
-    words:[
-      ['These are empty ___. They held water before.',['bottles','boots','windows'],0,'Воду можно было налить в бутылки.'],
-      ['Ruby wears ___ on her hands.',['socks','gloves','shorts'],1,'Ищи название одежды для рук.'],
-      ['The class put the poster ___ the wall.',['under','between','on'],2,'Плакат повесили на стену.']
-    ],
-    profile:'My name is Sophie Hill. I am nine. I live in Bristol. My favourite subject is art. After school I like dancing. On Sundays I go to the beach with my parents.',
-    fields:[[['First name','Sophie'],['Surname','Hill']],[['Age',9],['City','Bristol']],[['Favourite subject','art'],['After-school activity','dancing']]]
-  },
-  {
-    story:'On Wednesday, Noah and his sister Ella visited a sea museum. Ella had a blue map in her hand. In the first room they saw a model ship. When Ella wanted to look at the map again, it was gone. A museum worker found it next to the model ship. The children thanked her and went to the aquarium room.',
-    question:['Where did Noah and Ella go?',['To a sea museum.','To a school.','To a beach.'],0,'They visited a sea museum.'],
-    fact:[['The map was red.','Noah found the map outside.','A worker found the map by the model ship.'],2,'A museum worker found the map next to the model ship.'],
-    sequence:['The children saw a model ship.','Ella noticed that her map was gone.','The children went to the aquarium room.'],
-    grammar:[
-      ['Noah usually ___ his ticket in a pocket.',['keep','keeps','keeping'],1,'Noah можно заменить местоимением he.'],
-      ['There ___ two aquariums in this room.',['is','are','am'],1,'Two aquariums — множественное число.'],
-      ['Yesterday, Ella ___ her map in the museum.',['lost','loses','lose'],0,'Yesterday — Past Simple. У глагола lose в прошедшем времени форма lost.']
-    ],
-    words:[
-      ['You can use a ___ to find a room.',['map','fish','glove'],0,'Какой предмет показывает, куда идти?'],
-      ['The children look at fish in an ___.',['airport','aquarium','office'],1,'Ищи название помещения или ёмкости с водой и рыбами.'],
-      ['The map was ___ the model ship. It was just beside it.',['above','in','next to'],2,'Beside — рядом.']
-    ],
-    profile:'My name is Leo Reed. I am eleven. I live in Plymouth. My favourite subject is history. After school I like reading. On Fridays I help my grandad at his shop.',
-    fields:[[['First name','Leo'],['Surname','Reed']],[['Age',11],['City','Plymouth']],[['Favourite subject','history'],['After-school activity','reading']]]
-  }
-];
-
-function englishVariant(data,n) {
-  const passage = {passage:[data.story]};
-  const [question,choices,index,explanation] = data.question;
-  const [facts,rightFact,factExplanation] = data.fact;
-  const complete = ([expression,options,right,hint],i,title,prompt) =>
-    choiceTask(`${title} ${i+1}`,prompt,'Complete the sentence',options,right,hint,expression.replace('___',options[right]),{expression});
-  return [
-    [
-      choiceTask('First clue','Прочитай запись из журнала и ответь на вопрос.',question,choices,index,
-        'Найди в первом абзаце предложение, которое отвечает на вопрос.',explanation,passage),
-      choiceTask('Check the report','Выбери утверждение, которое подтверждает текст.','Which sentence is true?',facts,rightFact,
-        'Сравни каждое утверждение с тем, что рассказано в журнале.',factExplanation,passage),
-      orderTask('What happened first?','Нажимай на карточки в порядке событий.',data.sequence,'Найди каждое событие в тексте и проверь их порядок.',passage)
-    ],
-    data.grammar.map((item,i) => complete(item,i,'Grammar signal','Выбери подходящую форму глагола.')),
-    data.words.map((item,i) => complete(item,i,'Word signal','Выбери слово или выражение, которое подходит по смыслу.')),
-    data.fields.map((fields,i) => practice(['Name tag','Base record','After school'][i],
-      `Прочитай анкету участника экспедиции ${n+1} и заполни два поля по-английски.`,
-      'Ищи в тексте слова из названий полей и выписывай только нужные сведения.',
-      fields.map(([label,answer]) => `${label} — ${answer}`).join('. ')+'.',
-      {passage:[data.profile],fields:fields.map(([label,answer]) => blank(label,typeof answer === 'string' ? answer.toLowerCase() : answer))}))
-  ];
-}
-const englishVariants = englishPractice.map(englishVariant);
 
 const worldPractice = [
   {
@@ -3274,81 +3118,6 @@ const vprRussian = [
       'Назови участников, их конкретные поступки и общий результат.',
       'Каждый ученик принёс на выставку по одному рисунку. Вместе класс собрал большую выставку о море.',
       {expression:'С миру по нитке — голому рубаха.'})
-  ]
-];
-
-const museumReport = {passage:[
-  'Last Saturday, Eva and her friend Finn went to a museum by the sea. Eva took a red notebook. Finn brought his brother’s camera because he wanted to take photos of a model ship.',
-  'They arrived at ten o’clock. The ship room was closed in the morning, so they visited the aquarium first. A guide showed them a little crab under a rock. At noon, the ship room opened. Eva drew the ship, and Finn took two photos.',
-  'Next month Eva will visit the museum again with her class. Finn will be away with his family, so he will not go with them.'
-]};
-const museumCloze = {passage:[
-  'Last Sunday our class [A] ___ a museum near the harbour. We went there [B] ___ bus. The oldest boat in the hall was much [C] ___ than the little blue one.',
-  'Our guide told [D] ___ about the people who built the boat. Next week our class [E] ___ make a poster about the museum.'
-]};
-const museumProfile = {passage:[
-  'My name is Isla Brown. I am eleven years old and I live in Leeds, England. I have one brother and one sister. We have a cat, but we have not got a dog.',
-  'I love geography and I am in the school sailing club. My favourite fruit is a pear. I like tennis, but my favourite sport is sailing. In summer we go sailing on Saturdays.'
-]};
-const vprEnglish = [
-  [
-    dataExercise('Museum detectives','Прочитай историю и ответь на вопросы A и B.',
-      'Найди в первом абзаце сведения о блокноте и фотоаппарате.',
-      'A — a red notebook. B — his brother’s camera.',
-      [pick('A. What did Eva take?',['A red notebook.','A blue map.','A camera.'],'A red notebook.'),
-       pick('B. Whose camera did Finn bring?',['His own.','His brother’s.','Eva’s.'],'His brother’s.')],museumReport),
-    dataExercise('Find both details','Сопоставь две детали из истории.',
-      'Второй абзац рассказывает, что было открыто утром и где спрятался краб.',
-      'C — the aquarium. D — under a rock.',
-      [pick('C. Where did they go first?',['The shop.','The ship room.','The aquarium.'],'The aquarium.'),
-       pick('D. Where was the crab?',['In a boat.','Under a rock.','By the door.'],'Under a rock.')],museumReport),
-    choiceTask('A second visit','Выбери верное утверждение E.','E. What will happen next month?',
-      ['Finn will go to the museum with his brother.','Eva will visit the museum with her class.','The class will visit the harbour by boat.'],1,
-      'Прочитай последний абзац и раздели планы двух друзей.','Eva will visit the museum with her class.',museumReport)
-  ],
-  [
-    dataExercise('Five gaps, one story','Прочитай рассказ целиком. В каждом пропуске A–E выбери подходящую форму или слово.',
-      'Last Sunday подсказывает прошедшее время, than — сравнение, next week — будущее.',
-      'A visited · B by · C bigger · D us · E will.',
-      [pick('A',['visits','visited','visiting'],'visited'),pick('B',['by','in','to'],'by'),
-       pick('C',['biggest','big','bigger'],'bigger'),pick('D',['our','we','us'],'us'),pick('E',['will','were','did'],'will')],museumCloze),
-    dataExercise('Fix the log','Исправь форму глагола и впиши только это слово.',
-      'Yesterday указывает на Past Simple. У глагола take особенная форма.',
-      'Yesterday we took two photos. Прошедшая форма take — took.',[blank('Correct form','took')],
-      {expression:'Yesterday we take two photos.'}),
-    choiceTask('Which is correct?','Выбери предложение, которое правильно сравнивает два предмета.',
-      'Correct sentence',['The old boat is longer than the new one.','The old boat is longest than the new one.','The old boat is long than the new one.'],0,
-      'Если сравниваешь два предмета, после формы longer употребляется than.','The old boat is longer than the new one.')
-  ],
-  [
-    dataExercise('Read the signs','Прочитай три таблички музея. Подбери нужную букву для каждой ситуации.',
-      'Look for the words «shop», «touch» and «closes».',
-      'A — gift shop. B — do not touch. C — aquarium closes at five.',
-      [pick('You want to buy a postcard.',['A','B','C'],'A'),
-       pick('Keep your hands off the models.',['A','B','C'],'B'),
-       pick('You need the closing time.',['A','B','C'],'C')],
-      {passage:['A. Museum shop. Postcards and books.','B. Please do not touch the models.','C. Aquarium closes at five o’clock.']}),
-    choiceTask('Word in context','Прочитай, что произошло. Выбери подходящее слово.',
-      'A place for boats is a …',['forest','harbour','library'],1,
-      'В этом месте у берега стоят лодки.','Harbour — гавань.',{expression:'We saw three boats in the harbour.'}),
-    multipleExercise('Pack for the museum','Отметь только вещи, которые Finn может использовать, чтобы записать наблюдения и их зарисовать.',
-      'Для записей и рисунков нужны предметы, которыми или на которых можно писать.',
-      'He needs a pencil and a notebook.',
-      ['A swimming cap','A pencil','An umbrella','A notebook'],[1,3])
-  ],
-  [
-    dataExercise('Registration card','Заполни карточку Isla. В каждом поле одно слово. Возраст запиши словами.',
-      'Ищи имя, возраст и страну. Leeds — город, а England — страна.',
-      'First name — Isla. Age — eleven. Country — England.',
-      [blank('First name','isla'),blank('Age in words','eleven'),blank('Country','england')],museumProfile),
-    dataExercise('Family and school','Заполни ещё три поля. Число детей в семье запиши словами.',
-      'Посчитай всех детей, включая Isla. Не перепутай питомца с животным, которого в семье нет.',
-      'Children in the family — three. Pet — cat. Favourite subject — geography.',
-      [blank('Children in the family','three'),blank('Pet','cat'),blank('Favourite subject','geography')],museumProfile),
-    dataExercise('The last two fields','Заполни два последних поля анкеты. Напиши по одному слову без артикля.',
-      'Найди сочетания favourite fruit и favourite sport. Tennis ей нравится, но это не её любимый спорт.',
-      'Favourite fruit — pear. Favourite sport — sailing.',
-      [blank('Favourite fruit','pear'),blank('Favourite sport','sailing')],museumProfile)
   ]
 ];
 
@@ -3765,7 +3534,7 @@ const taskBank = {
   basic: [routes.basic,...[1,2,3].map(n => mathVariant(n,false)),vprMath[0]],
   deep: [routes.deep,...[1,2,3].map(n => mathVariant(n,true)),vprMath[1]],
   russian: [russian,...russianVariants,vprRussian],
-  english: [english,...englishVariants,vprEnglish],
+  english: [[]],
   world: [world,...worldVariants,vprWorld]
 };
 
@@ -4041,9 +3810,7 @@ const subjects = {
     wordOrder:'Нажимай на слова по порядку. Сначала подлежащее, затем сказуемое, потом ответы на вопросы «кому?», «что сделать?» и «что?».'
   },
   english: {
-    label:'Английский язык', locations:englishPlaces, title:'Журнал другого берега',
-    intro:'В море найден старый журнал на английском. Разгадай записи, почини оборудование и восстанови фразу из четырёх слов.',
-    wordOrder:'Собери английское предложение со смыслом «Мы защищаем океан». Начни с «мы», затем найди глагол и два слова для «океан».'
+    label:'Английский язык', locations:[], title:'ВПР-2027',
   },
   world: {
     label:'Окружающий мир', locations:worldPlaces, title:'Тайна живого рифа',
@@ -4265,12 +4032,48 @@ function startNext() {
   openSector(next);
 }
 
+let selectedEnglishVariant = null;
+
+function renderEnglishCollection(moveFocus) {
+  const {parent,items} = vprSources.english;
+  const selected = items[selectedEnglishVariant];
+  app.innerHTML = `
+    <section class="card english-collection" aria-labelledby="english-title">
+      <p class="kicker">Английский язык · 4 класс</p>
+      <h1 id="english-title" tabindex="-1">Тренировочные варианты ВПР-2027</h1>
+      <p>10 оригинальных вариантов из подборки OnlyEGE и «Началка+».</p>
+      <div class="vpr-variants" role="group" aria-label="Выбрать вариант ВПР">
+        ${items.map(({label},index) =>
+          `<button type="button" class="quiet" data-english-variant="${index}" aria-pressed="${index === selectedEnglishVariant}">${label}</button>`).join('')}
+      </div>
+      <p><a href="${parent}" target="_blank" rel="noopener noreferrer">Подборка OnlyEGE</a></p>
+      ${selected ? `
+        <section aria-labelledby="english-variant-title">
+          <h2 id="english-variant-title">${selected.label}</h2>
+          <p class="variant-source"><a href="${selected.url}" target="_blank" rel="noopener noreferrer">Открыть вариант на сайте «Началка+»</a></p>
+          <iframe src="${selected.url}" title="${selected.label} на сайте «Началка+»"
+            referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </section>` : ''}
+    </section>`;
+  for (const button of app.querySelectorAll('[data-english-variant]')) {
+    button.addEventListener('click', () => {
+      const index = Number(button.dataset.englishVariant);
+      if (selectedEnglishVariant === index) return;
+      selectedEnglishVariant = index;
+      renderEnglishCollection(false);
+      app.querySelector(`[data-english-variant="${index}"]`).focus({preventScroll:true});
+    });
+  }
+  if (moveFocus) focusTitle();
+}
+
 function renderMap(moveFocus = false) {
   stopDictation?.();
   delete document.body.dataset.scene;
   const subject = currentSubject();
   document.body.dataset.subject = subjectId();
   for (const button of subjectButtons) button.setAttribute('aria-pressed', String(button.dataset.subject === subjectId()));
+  if (englishMission()) return renderEnglishCollection(moveFocus);
   const next = findSector();
   const count = solvedCount();
   const completed = progress.launched[progress.route];
