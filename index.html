@@ -926,19 +926,33 @@ body[data-subject="world"] .mission {
 .dictation-player { margin-bottom:10px; }
 .dictation-player p { margin:0 0 7px; }
 
-  .english-collection { margin: 1.25rem 0; padding: clamp(1rem, 3vw, 2rem); }
-  .english-collection .vpr-variants { margin-block: 1rem; }
-  .english-collection a { color: #d9ffb9; }
-  .english-collection .variant-source { margin-block: .75rem; }
-  .english-collection iframe {
+  .vpr-collection { margin: 1.25rem 0; padding: clamp(1rem, 3vw, 2rem); }
+  .vpr-collection .vpr-variants { margin-block: 1rem; }
+  .vpr-collection a { color: #c9f6ff; }
+  .vpr-collection .variant-source { margin-block: .75rem; }
+  .vpr-collection iframe {
     display: block;
     width: 100%;
-    height: clamp(27rem, 72vh, 58rem);
+    height: clamp(23rem, 65vh, 46rem);
     border: 1px solid #78bdad;
     border-radius: .75rem;
     background: #fff;
   }
-  body[data-subject="english"] #points { visibility: hidden; }
+  .vpr-answers fieldset { margin: 1rem 0; padding: .8rem; min-width: 0; border: 1px solid #5391ae; border-radius: .7rem; }
+  .vpr-answers legend { padding-inline: .25rem; font-weight: 700; }
+  .vpr-answers label { display: grid; gap: .25rem; min-width: 0; }
+  .vpr-answers input, .vpr-answers select, .vpr-answers textarea {
+    font: inherit; color: #effbff; background: #10344c;
+    border: 1px solid #80b1c8; border-radius: .45rem; padding: .5rem;
+  }
+  .vpr-answers input, .vpr-answers textarea { width: 100%; }
+  .vpr-answers textarea { resize: vertical; }
+  .vpr-choices, .vpr-profile, .vpr-written { display: grid; gap: .8rem; }
+  .vpr-choices { grid-template-columns: repeat(auto-fit, minmax(3.4rem, 1fr)); }
+  .vpr-profile, .vpr-written { grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .vpr-answers [aria-invalid="true"] { border-color: #ffb18d; }
+  .vpr-answers [data-correct] { border-color: #abefcd; }
+  body[data-subject="english"] #points, body[data-subject="russian"] #points { visibility: hidden; }
 </style>
 <!-- Bundled font notices
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
@@ -2181,7 +2195,7 @@ License: CC-BY-4.0
 <main id="app"></main>
 <dialog id="help" class="card centered" aria-labelledby="help-title">
   <h2 id="help-title">Как играть</h2>
-  <p>В разделе «Английский язык» выбери вариант из подборки OnlyEGE. В игровых маршрутах после заданий проведи батискаф через риф или включи три контакта шлюза, чтобы открыть следующую локацию.</p>
+  <p>В разделе «Английский язык» выбери вариант и выполни задания 2–4. В разделе «Русский язык» выбери вариант и открой нужную часть. В игровых маршрутах после заданий проведи батискаф через риф или включи три контакта шлюза, чтобы открыть следующую локацию.</p>
   <p>За ответ с первой попытки без подсказки получишь 100 очков. С подсказкой, после повторной попытки или при самопроверке — 75. За ошибку очки не снимаются.</p>
   <p>Испытание приносит 120 очков, жемчужина — ещё 40, а финал — 200. В «Трофеях» можно выбрать раскраску батискафа. Таймера нет.</p>
   <p>«Продолжить» открывает первое нерешённое задание. На карте можно сменить вариант и вернуться к начатому позже. Игра запоминает прогресс в этом браузере.</p>
@@ -4032,36 +4046,186 @@ function startNext() {
   openSector(next);
 }
 
-let selectedEnglishVariant = null;
+const englishKeys = [
+  ["11323", "11212", [["1. ____________________", "Anna"], ["2. ____________________", "nine"], ["3. ____________________", "Russia"], ["4. ____________________", "three"], ["5. ____________________", "rabbit"], ["6. ____________________", "English"], ["7. ____________________", "apples"], ["8. ____________________", "swimming"]]],
+  ["22321", "21321", [["1. ____________________", "Daniel"], ["2. ____________________", "ten"], ["3. ____________________", "Russia"], ["4. ____________________", "Perm"], ["5. ____________________", "three"], ["6. ____________________", "parrot"], ["7. ____________________", "pizza"], ["8. ____________________", "basketball"]]],
+  ["21321", "21312", [["1. ____________________", "Sofia"], ["2. ____________________", "eleven"], ["3. ____________________", "Russia"], ["4. ____________________", "Omsk"], ["5. ____________________", "two"], ["6. ____________________", "hamster"], ["7. ____________________", "juice"], ["8. ____________________", "badminton"]]],
+  ["13123", "21323", [["1. ____________________", "Maxim"], ["2. ____________________", "nine"], ["3. ____________________", "Russia"], ["4. ____________________", "Tula"], ["5. ____________________", "three"], ["6. ____________________", "turtle"], ["7. ____________________", "Science"], ["8. ____________________", "tennis"]]],
+  ["21323", "22321", [["1. ____________________", "Andrew"], ["2. ____________________", "eleven"], ["3. ____________________", "Russia"], ["4. ____________________", "Yaroslavl"], ["5. ____________________", "three"], ["6. ____________________", "pig"], ["7. ____________________", "History"], ["8. ____________________", "cycling"]]],
+  ["21312", "22321", [["1. ____________________", "Victoria"], ["2. ____________________", "eleven"], ["3. ____________________", "Russia"], ["4. ____________________", "Pskov"], ["5. ____________________", "four"], ["6. ____________________", "rabbit"], ["7. ____________________", "Geography"], ["8. ____________________", "skating"]]],
+  ["23123", "22321", [["1. ____________________", "Nikita"], ["2. ____________________", "eleven"], ["3. ____________________", "Russia"], ["4. ____________________", "Kaluga"], ["5. ____________________", "four"], ["6. ____________________", "parrot"], ["7. ____________________", "English"], ["8. ____________________", "skiing"]]],
+  ["12132", "23332", [["1. ____________________", "Elena"], ["2. ____________________", "eleven"], ["3. ____________________", "Russia"], ["4. ____________________", "Ryazan"], ["5. ____________________", "four"], ["6. ____________________", "hamster"], ["7. ____________________", "Literature"], ["8. ____________________", "dancing"]]],
+  ["21123", "22321", [["1. ____________________", "Artem"], ["2. ____________________", "eleven"], ["3. ____________________", "Russia"], ["4. ____________________", "Kostroma"], ["5. ____________________", "four"], ["6. ____________________", "dog"], ["7. ____________________", "Science"], ["8. ____________________", "rowing"]]],
+  ["21322", "22321", [["1. ____________________", "Maria"], ["2. ____________________", "eleven"], ["3. ____________________", "Russia"], ["4. ____________________", "Vladimir"], ["5. ____________________", "four"], ["6. ____________________", "cat"], ["7. ____________________", "Biology"], ["8. ____________________", "climbing"]]]
+];
+const englishTasks = ['Задание 2. Чтение', 'Задание 3. Грамматика и лексика', 'Задание 4. Заполнение анкеты'];
+const russianParts = [[1, 3], [4, 15]];
+let selectedEnglishVariant = 0;
+let selectedRussianVariant = 0;
+let selectedRussianPart = 0;
+const responseDrafts = new Map();
+
+function sourceLink(url, heading, label, suffix = '') {
+  const fragment = heading ? '#:~:text=' + encodeURIComponent(heading) + (suffix ? ',-' + encodeURIComponent(suffix) : '') : '';
+  return `<a href="${url}${fragment}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+}
+
+function variantPicker(items, selected) {
+  return `<div class="vpr-variants" role="group" aria-label="Выбрать вариант ВПР">
+    ${items.map(({label}, index) =>
+      `<button type="button" class="quiet" data-original-variant="${index}" aria-pressed="${index === selected}">${label}</button>`).join('')}
+  </div>`;
+}
+
+function bindVariantPicker(selectVariant) {
+  for (const button of app.querySelectorAll('[data-original-variant]')) {
+    button.addEventListener('click', () => {
+      if (button.getAttribute('aria-pressed') === 'true') return;
+      const index = Number(button.dataset.originalVariant);
+      selectVariant(index);
+      app.querySelector(`[data-original-variant="${index}"]`).focus({preventScroll:true});
+    });
+  }
+}
+
+function bindResponseDraft(form, id) {
+  const key = `${storageKey}-vpr-${id}`;
+  const fields = [...form.elements].filter(field => field.name);
+  let draft = responseDrafts.get(key);
+  if (!draft) {
+    try { draft = JSON.parse(localStorage.getItem(key)); } catch {}
+  }
+  for (const field of fields) {
+    if (typeof draft?.[field.name] === 'string') field.value = draft[field.name];
+  }
+  form.addEventListener('input', () => {
+    draft = Object.fromEntries(new FormData(form));
+    responseDrafts.set(key, draft);
+    try { localStorage.setItem(key, JSON.stringify(draft)); } catch {}
+  });
+  return fields;
+}
 
 function renderEnglishCollection(moveFocus) {
-  const {parent,items} = vprSources.english;
+  const {parent, items} = vprSources.english;
   const selected = items[selectedEnglishVariant];
+  const [reading, grammar, profile] = englishKeys[selectedEnglishVariant];
   app.innerHTML = `
-    <section class="card english-collection" aria-labelledby="english-title">
+    <section class="card vpr-collection">
       <p class="kicker">Английский язык · 4 класс</p>
-      <h1 id="english-title" tabindex="-1">Тренировочные варианты ВПР-2027</h1>
-      <p>10 оригинальных вариантов из подборки OnlyEGE и «Началка+».</p>
-      <div class="vpr-variants" role="group" aria-label="Выбрать вариант ВПР">
-        ${items.map(({label},index) =>
-          `<button type="button" class="quiet" data-english-variant="${index}" aria-pressed="${index === selectedEnglishVariant}">${label}</button>`).join('')}
-      </div>
-      <p><a href="${parent}" target="_blank" rel="noopener noreferrer">Подборка OnlyEGE</a></p>
-      ${selected ? `
-        <section aria-labelledby="english-variant-title">
-          <h2 id="english-variant-title">${selected.label}</h2>
-          <p class="variant-source"><a href="${selected.url}" target="_blank" rel="noopener noreferrer">Открыть вариант на сайте «Началка+»</a></p>
-          <iframe src="${selected.url}" title="${selected.label} на сайте «Началка+»"
-            referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
-        </section>` : ''}
+      <h1 tabindex="-1">Тренировочные варианты ВПР-2027</h1>
+      ${variantPicker(items, selectedEnglishVariant)}
+      <p>Открой задания в новой вкладке, затем введи ответы здесь.</p>
+      <form class="vpr-answers" id="written-vpr" novalidate>
+        ${[reading, grammar].map((_, section) => `
+          <fieldset>
+            <legend>${sourceLink(selected.url, englishTasks[section], englishTasks[section])}</legend>
+            <div class="vpr-choices">${[...'ABCDE'].map(letter => `
+              <label>${letter}<select name="${section}-${letter}">
+                <option value="">—</option><option>1</option><option>2</option><option>3</option>
+              </select></label>`).join('')}</div>
+          </fieldset>`).join('')}
+        <fieldset>
+          <legend>${sourceLink(selected.url, englishTasks[2], englishTasks[2])}</legend>
+          <div class="vpr-profile">${profile.map(([label], index) => `
+            <label lang="en">${index + 1}. ${label}<input type="text" name="profile-${index}"
+              autocomplete="off" autocapitalize="none" spellcheck="false"></label>`).join('')}</div>
+        </fieldset>
+        <button type="submit" class="btn">Проверить ответы</button>
+        <p role="status" id="written-result"></p>
+      </form>
+      <p class="variant-source">${sourceLink(parent, '', 'Подборка OnlyEGE')}</p>
     </section>`;
-  for (const button of app.querySelectorAll('[data-english-variant]')) {
+  const form = app.querySelector('#written-vpr');
+  const fields = bindResponseDraft(form, `en-${selectedEnglishVariant + 1}`);
+  const result = app.querySelector('#written-result');
+  form.addEventListener('input', () => {
+    result.textContent = '';
+    for (const field of fields) {
+      field.removeAttribute('aria-invalid');
+      field.removeAttribute('data-correct');
+    }
+  });
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const answers = [...reading, ...grammar, ...profile.map(([, answer]) => answer)];
+    let correct = 0;
+    fields.forEach((field, index) => {
+      const value = field.value.trim().toLowerCase();
+      const matches = value === answers[index].toLowerCase();
+      correct += Number(matches);
+      field.toggleAttribute('data-correct', matches);
+      if (matches) field.removeAttribute('aria-invalid');
+      else field.setAttribute('aria-invalid', 'true');
+    });
+    result.textContent = `Верных ответов ${correct} из ${fields.length}.`;
+  });
+  bindVariantPicker(index => {
+    selectedEnglishVariant = index;
+    renderEnglishCollection(false);
+  });
+  if (moveFocus) focusTitle();
+}
+
+function renderRussianCollection(moveFocus) {
+  const {parent, items} = vprSources.russian;
+  const source = items[selectedRussianVariant];
+  const firstVariant = selectedRussianVariant === 0;
+  const [first, last] = russianParts[selectedRussianPart];
+  const partTitle = `Часть ${selectedRussianPart + 1}`;
+  app.innerHTML = `
+    <section class="card vpr-collection">
+      <p class="kicker">Русский язык · 4 класс</p>
+      <h1 tabindex="-1">Тренировочные варианты ВПР-2027</h1>
+      ${variantPicker(items, selectedRussianVariant)}
+      <h2>${source.label}</h2>
+      <div class="vpr-variants" role="group" aria-label="Выбрать часть варианта">
+        ${russianParts.map(([start, end], index) => `
+          <button type="button" class="quiet" data-russian-part="${index}"
+            aria-pressed="${index === selectedRussianPart}">Часть ${index + 1} · ${start}–${end}</button>`).join('')}
+      </div>
+      <p class="variant-source">${sourceLink(source.url, partTitle, `Открыть задания ${first}–${last} на сайте «Началка+»`)}</p>
+      <details class="variant-source" id="russian-preview">
+        <summary>Читать оригинал в тренажёре</summary>
+      </details>
+      ${selectedRussianPart === 0 ? '<p>Диктант может прочитать учитель или взрослый.</p>' : ''}
+      <form class="vpr-answers" id="written-vpr">
+        <fieldset>
+          <legend>Ответы · задания ${first}–${last}</legend>
+          <div class="vpr-written">${Array.from({length: last - first + 1}, (_, index) => {
+            const task = first + index;
+            return `<label>Задание ${task}${task === 1 ? ' · Диктант' : ''}
+              <textarea name="task-${task}" rows="${task === 1 ? 6 : 3}" spellcheck="false"></textarea></label>`;
+          }).join('')}</div>
+        </fieldset>
+      </form>
+      <p class="variant-source">${sourceLink(source.url, firstVariant ? 'Ответы' : 'Ответы и пояснения',
+        'Сверить ответы на сайте «Началка+»', firstVariant ? 'Задание 2' : '')}</p>
+      <p class="variant-source">${sourceLink(parent, '', 'Подборка OnlyEGE')}</p>
+    </section>`;
+  bindResponseDraft(app.querySelector('#written-vpr'), `ru-${selectedRussianVariant + 1}-${selectedRussianPart + 1}`);
+  bindVariantPicker(index => {
+    selectedRussianVariant = index;
+    selectedRussianPart = 0;
+    renderRussianCollection(false);
+  });
+  const preview = app.querySelector('#russian-preview');
+  preview.addEventListener('toggle', () => {
+    if (!preview.open || preview.querySelector('iframe')) return;
+    const frame = document.createElement('iframe');
+    frame.title = `${source.label} на сайте «Началка+»`;
+    frame.referrerPolicy = 'no-referrer';
+    frame.setAttribute('sandbox', '');
+    frame.src = source.url;
+    preview.append(frame);
+  });
+  for (const button of app.querySelectorAll('[data-russian-part]')) {
     button.addEventListener('click', () => {
-      const index = Number(button.dataset.englishVariant);
-      if (selectedEnglishVariant === index) return;
-      selectedEnglishVariant = index;
-      renderEnglishCollection(false);
-      app.querySelector(`[data-english-variant="${index}"]`).focus({preventScroll:true});
+      const index = Number(button.dataset.russianPart);
+      if (selectedRussianPart === index) return;
+      selectedRussianPart = index;
+      renderRussianCollection(false);
+      app.querySelector(`[data-russian-part="${index}"]`).focus({preventScroll:true});
     });
   }
   if (moveFocus) focusTitle();
@@ -4074,6 +4238,7 @@ function renderMap(moveFocus = false) {
   document.body.dataset.subject = subjectId();
   for (const button of subjectButtons) button.setAttribute('aria-pressed', String(button.dataset.subject === subjectId()));
   if (englishMission()) return renderEnglishCollection(moveFocus);
+  if (subjectId() === 'russian') return renderRussianCollection(moveFocus);
   const next = findSector();
   const count = solvedCount();
   const completed = progress.launched[progress.route];
