@@ -89,6 +89,18 @@ button{cursor:pointer}
 @media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}.hero-graphic{font-size:100px;right:2%}}
 @media(max-width:800px){.worklayout{grid-template-columns:1fr}.editor{border-right:0;border-bottom:1px solid var(--line)}.viewer{order:-1}.frame{height:380px}}
 @media(max-width:650px){.wrap{padding:12px 12px 45px}.hero{padding:23px}.hero-graphic{display:none}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.mission{min-height:198px;padding:12px}.mission-index{font-size:37px}.mission-controls{flex-wrap:wrap}.mission-controls .btn{font-size:12px}.worktop{padding:18px}.editor,.viewer{padding:13px}.overall{width:100%}}
+
+.dictation-console{margin:12px 0 16px;padding:17px;border:1px solid rgba(125,231,255,.5);border-radius:17px;background:linear-gradient(125deg,#173c68,#193754);box-shadow:0 0 26px #16b7e92b}
+.dictation-console h5{font-size:17px;margin:0 0 4px}
+.dictation-console p{font-size:13px;color:#c5e3f3;margin:8px 0}
+.dict-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.dict-buttons .btn{font-size:13px}
+.dictation-console details{margin-top:12px;background:#092945;border:1px solid #416a87;border-radius:10px;padding:11px}
+.dictation-console summary{cursor:pointer;font-weight:850;color:#f0deae}
+.dictation-console textarea{margin-top:12px;min-height:130px}
+.dict-label{font-size:13px;display:inline-flex;gap:7px;align-items:center}
+.dict-label select{background:#06263e;border:1px solid #60c4ec;color:white;border-radius:8px;padding:6px}
+.dict-status{display:block;min-height:21px;color:#80f1d2;font-weight:750;font-size:13px}
 </style>
 </head>
 <body>
@@ -98,7 +110,7 @@ button{cursor:pointer}
 <div class="overline">Погружение в мир знаний</div>
 <h1>10 экспедиций<br>по русскому языку</h1>
 <p>Все 10 опубликованных вариантов ВПР-2027. Работаем с заданиями первоисточника, сохраняем свои ответы, следим за временем и открываем новые экспедиции без повторов.</p>
-<div class="info"><span class="chip">10 оригинальных источников</span><span class="chip">15 заданий в каждом</span><span class="chip">2 части • до 45 минут каждая</span><span class="chip">Без аудио</span></div>
+<div class="info"><span class="chip">10 оригинальных источников</span><span class="chip">15 заданий в каждом</span><span class="chip">2 части • до 45 минут каждая</span><span class="chip">🔊 Диктант с озвучкой</span></div>
 <div class="hero-graphic" aria-hidden="true">🫧</div>
 </section>
 <div class="source-note">📚 <strong>Задания и ответы принадлежат авторам первоисточника.</strong> Чтобы не заменять их выдуманными вопросами и не дублировать сторонние материалы на этом сайте, оригинальный вариант открывается по прямой ссылке и, если разрешает сайт-источник, в окне просмотра. Ответы записываются в собственном поле игрока. Автоматическая оценка развернутых ответов не выполняется.</div>
@@ -114,10 +126,10 @@ button{cursor:pointer}
 <div class="worklayout">
 <div class="editor">
 <div class="timerbar"><div id="clock" class="clock">45:00</div><div class="timertext">Таймер выбранной части. Запускается вручную, время сохраняется на этом устройстве.</div><button class="btn small" id="timerstart">▶ Старт</button><button class="btn small ghost" id="timerreset">↻ 45:00</button></div>
-<div id="editorhint" class="muted" style="font-size:13px">Открой оригинальный вариант и вписывай свои ответы под соответствующими номерами.</div>
+<div id="editorhint" class="muted" style="font-size:13px">Открой оригинальный вариант и вписывай свои ответы под соответствующими номерами. Для задания № 1 доступно компьютерное чтение диктанта.</div>
 <div id="questions"></div>
 <div class="editor-tools"><button class="btn primary" id="finishpart">✓ Отметить часть выполненной</button><button class="btn ghost" id="clearpart">Очистить ответы части</button><span class="saved" id="saveinfo">● Ответы сохраняются автоматически</span></div>
-<p class="muted" style="font-size:13px">Самопроверка проводится по авторским ответам и критериям внизу исходной страницы. Для диктанта и развернутых ответов предусмотрена ручная проверка — без фиктивных автоматических оценок.</p>
+<p class="muted" style="font-size:13px">Самопроверка проводится по авторским ответам и критериям внизу исходной страницы. Диктант читает компьютер по-русски, без участия взрослого. Для диктанта и развернутых ответов предусмотрена ручная проверка — без фиктивных автоматических оценок.</p>
 </div>
 <div class="viewer"><h3>📖 Исходный вариант</h3><p>Справа или сверху открывается первоисточник. Если страница не отображается во встроенном окне, нажми «Открыть отдельно»: некоторые сайты запрещают показ во фрейме.</p><div class="frame"><iframe title="Оригинальный вариант ВПР на сайте Началка Плюс" id="sourceframe" loading="lazy" referrerpolicy="no-referrer"></iframe></div><div class="linkline"><a id="sourcebtn" class="btn gold" target="_blank" rel="noopener noreferrer">↗ Открыть отдельно</a><a class="btn ghost" href="https://onlyege.ru/10-trenirovochnyx-variantov-vpr-2027-po-russkomu-yazyku-4-klass/" target="_blank" rel="noopener noreferrer">Каталог 10 вариантов</a></div></div>
 </div>
@@ -140,6 +152,115 @@ const SOURCES = [
 "https://nachalkaplus.ru/trenirovochnyj-variant-10-vpr-2027-po-russkomu-yazyku-4-klass/"
 ];
 const STORE="aquanauts-vpr4-russian-2027-v1";
+
+const DICT_STORE="aquanauts-vpr4-russian-dictations-user-local-v1";
+let dictTexts={};
+try{dictTexts=JSON.parse(localStorage.getItem(DICT_STORE)||"{}")||{}}catch(e){}
+const speech={token:0,items:[],pos:0,last:0,mode:"all",timer:null,active:false};
+function splitDictation(t){
+  return t.replace(/\r/g,"").trim().split(/(?<=[.!?])\s+(?=[А-ЯЁ«"—])/u).map(x=>x.trim()).filter(Boolean);
+}
+function stopDictation(){
+  speech.token++;speech.active=false;
+  if(speech.timer)clearTimeout(speech.timer);
+  speech.timer=null;
+  if("speechSynthesis" in window)window.speechSynthesis.cancel();
+  const status=document.getElementById("dict-status");
+  if(status)status.textContent="⏹ Озвучивание остановлено";
+}
+function sayDictation(){
+  if(!speech.items.length||speech.pos>=speech.items.length){
+    speech.active=false;const status=$("dict-status");
+    if(status)status.textContent="✓ Диктант прослушан";return;
+  }
+  const position=speech.pos,token=speech.token;
+  const utterance=new SpeechSynthesisUtterance(speech.items[position]);
+  utterance.lang="ru-RU";
+  utterance.rate=Number($("dict-speed")?.value||0.82);
+  utterance.pitch=1;utterance.volume=1;
+  const voices=window.speechSynthesis.getVoices();
+  const ru=voices.find(v=>/^ru(-|$)/i.test(v.lang));
+  if(ru)utterance.voice=ru;
+  const status=$("dict-status");
+  if(status)status.textContent="🔊 Предложение "+(position+1)+" из "+speech.items.length;
+  speech.active=true;speech.last=position;
+  utterance.onend=()=>{
+    if(token!==speech.token)return;
+    speech.pos=position+1;
+    if(speech.mode==="all"&&speech.pos<speech.items.length){
+      speech.timer=setTimeout(()=>{speech.timer=null;sayDictation();},2000);
+    }else{
+      speech.active=false;
+      if(status)status.textContent=speech.pos>=speech.items.length?"✓ Все предложения прочитаны":"✓ Предложение прочитано — можно продолжать";
+    }
+  };
+  utterance.onerror=e=>{
+    if(token!==speech.token)return;
+    speech.active=false;
+    if(status)status.textContent=e.error==="canceled"?"⏹ Остановлено":"⚠ Проверь звук и наличие русского голоса в браузере";
+  };
+  window.speechSynthesis.speak(utterance);
+}
+function playDictation(mode){
+  if(!("speechSynthesis" in window)||typeof SpeechSynthesisUtterance==="undefined"){
+    notify("В этом браузере нет озвучивания. Попробуй Microsoft Edge или Chrome.");return;
+  }
+  const raw=String(dictTexts[state.selected]||"").trim();
+  if(!raw){
+    notify("Нужно один раз добавить текст оригинального диктанта.");
+    const detail=$("dict-setup");if(detail)detail.open=true;return;
+  }
+  const pieces=splitDictation(raw);
+  if(!pieces.length){notify("Текст диктанта пуст.");return;}
+  const i=mode==="repeat"?Math.min(speech.last,pieces.length-1):mode==="next"?Math.min(speech.pos,pieces.length-1):0;
+  stopDictation();
+  speech.items=pieces;speech.pos=i;speech.mode=mode;
+  sayDictation();
+}
+function buildDictationControls(){
+  const panel=make("section","dictation-console");
+  panel.innerHTML=[
+    '<h5>🎧 Подводный диктант · автоматическое чтение</h5>',
+    '<p>Компьютер читает по-русски с паузами между предложениями. Ребёнок слушает и печатает самостоятельно.</p>',
+    '<div class="dict-buttons">',
+    '<button type="button" class="btn primary" id="dict-play">▶ Слушать весь диктант</button>',
+    '<button type="button" class="btn" id="dict-next">▶ Следующее предложение</button>',
+    '<button type="button" class="btn" id="dict-repeat">↻ Повторить</button>',
+    '<button type="button" class="btn ghost" id="dict-stop">■ Стоп</button>',
+    '</div>',
+    '<label class="dict-label">Темп чтения <select id="dict-speed" aria-label="Скорость чтения"><option value="0.68">Медленно</option><option value="0.82" selected>Для диктанта</option><option value="0.95">Обычно</option></select></label>',
+    '<span class="dict-status" id="dict-status" role="status"></span>',
+    '<details id="dict-setup"><summary>⚙ Для учителя: один раз добавить текст диктанта</summary>',
+    '<p>Открой оригинальный вариант, скопируй только текст диктанта сюда и сохрани. Он останется на этом устройстве и не будет опубликован на сайте. Для каждого варианта сохранение выполняется один раз.</p>',
+    '<textarea id="dict-text" aria-label="Оригинальный текст диктанта" placeholder="Вставь текст диктанта из исходного варианта"></textarea>',
+    '<div class="dict-buttons"><button type="button" class="btn gold" id="dict-save">✓ Сохранить на устройстве</button><a class="btn ghost" id="dict-src" target="_blank" rel="noopener noreferrer">↗ Источник</a></div>',
+    '</details>'
+  ].join("");
+  panel.querySelector("#dict-play").onclick=()=>playDictation("all");
+  panel.querySelector("#dict-next").onclick=()=>playDictation("next");
+  panel.querySelector("#dict-repeat").onclick=()=>playDictation("repeat");
+  panel.querySelector("#dict-stop").onclick=stopDictation;
+  panel.querySelector("#dict-src").href=SOURCES[state.selected-1];
+  panel.querySelector("#dict-text").value=dictTexts[state.selected]||"";
+  if(!dictTexts[state.selected]){
+    panel.querySelector("#dict-setup").open=true;
+    panel.querySelector("#dict-status").textContent="⚙ Добавь текст один раз, чтобы активировать диктант.";
+  }else{
+    panel.querySelector("#dict-status").textContent="✅ Текст сохранён, готово к прослушиванию.";
+  }
+  panel.querySelector("#dict-save").onclick=()=>{
+    const raw=panel.querySelector("#dict-text").value.trim();
+    if(!raw){notify("Вставь оригинальный текст перед сохранением.");return;}
+    try{localStorage.setItem(DICT_STORE,JSON.stringify({...dictTexts,[state.selected]:raw}));}
+    catch(e){notify("Не удалось сохранить: проверь доступную память браузера.");return;}
+    dictTexts[state.selected]=raw;
+    panel.querySelector("#dict-setup").open=false;
+    panel.querySelector("#dict-status").textContent="✅ Текст сохранён, можно слушать диктант.";
+    notify("Диктант сохранён на этом устройстве");
+  };
+  return panel;
+}
+
 let state={selected:0,part:1,records:{}};
 try {const saved=JSON.parse(localStorage.getItem(STORE)||"null"); if(saved&&saved.records)state={...state,...saved};}catch(e){}
 let timerHandle=null,toastHandle=null;
@@ -170,10 +291,10 @@ actions.append(btn,link);card.append(actions);grid.append(card);
 $("totalcount").textContent=done+" / 10 завершено";$("taskcount").textContent=ans+" / 150 ответов";$("totalbar").style.width=done*10+"%";
 }
 function selectVariant(n){
-stopTimer();state.selected=n;state.part=1;save();renderGrid();renderWork();
+stopDictation();stopTimer();state.selected=n;state.part=1;save();renderGrid();renderWork();
 $("workspace").scrollIntoView({behavior:"smooth",block:"start"});
 }
-function selectPart(p){stopTimer();state.part=p;save();renderWork();}
+function selectPart(p){stopDictation();stopTimer();state.part=p;save();renderWork();}
 function renderWork(){
 const n=state.selected;if(!n){$("workspace").classList.remove("show");return}
 $("workspace").classList.add("show");$("worktitle").textContent="Вариант № "+n+" · Русский язык";
@@ -195,6 +316,7 @@ const q=make("div","question");const top=make("div","question-top");top.append(m
 top.append(make("small","",String(r.answers[i]||"").trim()?"● Заполнено":"○ Не заполнено"));q.append(top);
 const area=make("textarea",i===1?"large":"");area.placeholder=i===1?"Запиши текст диктанта самостоятельно (или используй тетрадь)":"Запиши ответ на задание № "+i+" из оригинального варианта";area.setAttribute("aria-label","Ответ на задание № "+i);area.value=r.answers[i]||"";
 area.oninput=()=>{r.answers[i]=area.value;save();top.lastChild.textContent=area.value.trim()?"● Заполнено":"○ Не заполнено";renderGrid();$("workinfo").textContent="Отвечено "+answered(r)+" / 15 · Часть "+p+" · Оригинальные задания — на сайте источника";};
+if(i===1)q.append(buildDictationControls());
 q.append(area);container.append(q);
 }
 }
@@ -239,7 +361,7 @@ $("next").onclick=chooseNext;$("export").onclick=exportAnswers;
 $("part1").onclick=()=>selectPart(1);$("part2").onclick=()=>selectPart(2);
 $("timerstart").onclick=toggleTimer;$("timerreset").onclick=resetTimer;
 $("finishpart").onclick=toggleFinished;$("clearpart").onclick=clearPart;
-$("closework").onclick=()=>{stopTimer();state.selected=0;save();renderGrid();renderWork();};
+$("closework").onclick=()=>{stopDictation();stopTimer();state.selected=0;save();renderGrid();renderWork();};
 if(!Number.isInteger(state.selected)||state.selected<0||state.selected>10)state.selected=0;
 if(state.part!==1&&state.part!==2)state.part=1;
 renderGrid();if(state.selected)renderWork();
