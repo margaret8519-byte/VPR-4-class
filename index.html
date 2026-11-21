@@ -3736,10 +3736,39 @@ const mixedMath = [
   ]
 ];
 
-const mathCollectionStart = 5;
-const taskBank = {
+const mathBanks = {
   basic: [routes.basic,...[1,2,3].map(n => mathVariant(n,false)),vprMath[0],...mixedMath.slice(0,4)],
-  deep: [routes.deep,...[1,2,3].map(n => mathVariant(n,true)),vprMath[1],...mixedMath.slice(4)],
+  deep: [routes.deep,...[1,2,3].map(n => mathVariant(n,true)),vprMath[1],...mixedMath.slice(4)]
+};
+
+const mathTaskSector = {
+  'Вычисления':0, 'Покупка и сдача':0, 'Порядок действий':0,
+  'Единицы измерения':1, 'Читаем таблицу':1,
+  'Задача на массу':3, 'Задача на движение':3,
+  'Числовое выражение':4, 'Логическая задача':4
+};
+
+function integrateMathTasks(sets) {
+  const missions = sets.map(() => places.map(() => []));
+  let cursor = 0;
+  for (const sector of places.keys()) {
+    const practice = sets.slice(0,5).flatMap(set => set[sector]);
+    for (const task of practice) missions[cursor++ % missions.length][sector].push(task);
+  }
+  const collection = sets.slice(5).flat(2);
+  for (const sector of places.keys()) {
+    const tasks = collection.filter(task => mathTaskSector[task.title] === sector);
+    tasks.forEach((task,index) => {
+      const slot = missions[(index + sector) % missions.length][sector];
+      slot.splice(1 + Math.floor(index / missions.length) * 2,0,task);
+    });
+  }
+  return missions;
+}
+
+const taskBank = {
+  basic: integrateMathTasks(mathBanks.basic),
+  deep: integrateMathTasks(mathBanks.deep),
   russian: [russian,...russianVariants,vprRussian],
   english: [english,...englishVariants,vprEnglish],
   world: [world,...worldVariants,vprWorld]
@@ -3830,7 +3859,9 @@ function missionStage(sector) {
 }
 
 function openSector(sector) {
-  if (levelPassed(sector)) return renderSectorReview(sector);
+  if (levelPassed(sector)) {
+    return subjectId() !== 'math' || findStep(sector) === -1 ? renderSectorReview(sector) : renderTask(sector);
+  }
   if (!progress.levels[progress.route][sector]?.briefed) return renderBrief(sector);
   renderTask(sector);
 }
@@ -4060,6 +4091,34 @@ const progress = {
   gear: Array.isArray(saved.gear) ? saved.gear.filter(id => gear.some(item => item.id === id)) : [],
   paint: gear.some(item => item.id === saved.paint) ? saved.paint : 'classic'
 };
+// Move saved answers with their tasks when the maths expeditions are mixed.
+function migrateMathProgress() {
+  for (const [route,oldSets] of Object.entries(mathBanks)) {
+    const active = progress.variants[route];
+    const runs = progress.variantRuns[route];
+    const activeRun = {logs:progress.logs[route],levels:progress.levels[route],launched:progress.launched[route]};
+    const previousRuns = {...runs,[active]:activeRun};
+    const newPositions = new Map();
+    taskBank[route].forEach((sectors,index) => sectors.forEach((tasks,sector) => tasks.forEach((task,step) => {
+      newPositions.set(task,{index,id:key(sector,step)});
+    })));
+    const updated = {};
+    for (const [index,run] of Object.entries(previousRuns)) {
+      if (!run.retired) updated[index] = {...run,logs:updated[index]?.logs || {}};
+      for (const [id,entry] of Object.entries(run.logs || {})) {
+        const [sector,step] = id.split('-').map(Number);
+        const position = newPositions.get(oldSets[index]?.[sector]?.[step]);
+        if (!position) continue;
+        const target = updated[position.index] ||= {logs:{},levels:{},launched:false};
+        target.logs[position.id] = entry;
+      }
+    }
+    progress.logs[route] = updated[active].logs;
+    delete updated[active];
+    progress.variantRuns[route] = updated;
+  }
+  progress.integratedMath = true;
+}
 let audio;
 
 function save() {
@@ -4163,12 +4222,18 @@ const variantCount = () => taskBank[progress.route].length;
 const savedRuns = () => progress.variantRuns[progress.route];
 function nextVariantIndex() {
   const sets = taskBank[progress.route];
-  const available = (_,index) => index !== variantIndex() && !savedRuns()[index];
-  if (subjectId() === 'math' && variantIndex() >= mathCollectionStart) {
-    const nextMixed = sets.findIndex((set,index) => index >= mathCollectionStart && available(set,index));
-    if (nextMixed !== -1) return nextMixed;
+  if (subjectId() !== 'math') {
+    return sets.findIndex((_,index) => index !== variantIndex() && !savedRuns()[index]);
   }
-  return sets.findIndex(available);
+  for (let offset = 1; offset < sets.length; offset++) {
+    const index = (variantIndex() + offset) % sets.length;
+    const run = savedRuns()[index];
+    if (run?.retired) continue;
+    const count = sets[index].flat().length;
+    const solved = Object.values(run?.logs || {}).filter(entry => entry.solved).length;
+    if (!run?.launched || solved < count) return index;
+  }
+  return -1;
 }
 const hasNextVariant = () => nextVariantIndex() !== -1;
 const currentRoute = () => taskBank[progress.route][variantIndex()];
@@ -4179,10 +4244,12 @@ const key = (sector, step) => `${sector}-${step}`;
 const done = (sector, step) => Boolean(log()[key(sector,step)]?.solved);
 const levelPassed = sector => Boolean(progress.levels[progress.route][sector]?.cleared);
 const findStep = sector => currentRoute()[sector].findIndex((_,step) => !done(sector,step));
-const findSector = () => currentPlaces().findIndex((_,sector) => !levelPassed(sector));
+const findSector = () => currentPlaces().findIndex((_,sector) =>
+  !levelPassed(sector) || (subjectId() === 'math' && findStep(sector) !== -1));
 const solvedCount = () => currentRoute().reduce((sum, tasks, sector) => sum + tasks.filter((_, step) => done(sector,step)).length,0);
 const mapButton = '<button type="button" class="quiet" id="to-map">К карте</button>';
-const nextVariantButton = '<button type="button" class="btn gold" id="new-variant">Новый вариант</button>';
+const nextVariantButton = () =>
+  `<button type="button" class="btn gold" id="new-variant">${subjectId() === 'math' ? 'Следующее погружение' : 'Новый вариант'}</button>`;
 
 function openVariant(index) {
   const route = progress.route;
@@ -4230,8 +4297,7 @@ function bindMap() {
 
 function startNext() {
   const next = findSector();
-  if (progress.launched[progress.route]) return renderResults();
-  if (next === -1) return renderLaunch();
+  if (next === -1) return progress.launched[progress.route] ? renderResults() : renderLaunch();
   play('dive');
   openSector(next);
 }
@@ -4244,16 +4310,12 @@ function renderMap(moveFocus = false) {
   for (const button of subjectButtons) button.setAttribute('aria-pressed', String(button.dataset.subject === subjectId()));
   const next = findSector();
   const count = solvedCount();
-  const completed = progress.launched[progress.route];
+  const completed = progress.launched[progress.route] && next === -1;
   const started = count > 0 || Object.keys(progress.levels[progress.route]).length > 0;
   const begin = completed ? 'Смотреть результат' : next === -1 ? 'К финалу' : started ? 'Продолжить' : 'Начать погружение';
   const math = subjectId() === 'math';
   const routeNote = math ? (progress.route === 'basic' ? 'Базовый маршрут' : 'Повышенная сложность') : subject.label;
-  const featured = math ? mathCollectionStart : variantCount() - 1;
-  const inCollection = index => math ? index >= featured : index === featured;
-  const collectionTarget = taskBank[progress.route].findIndex((_,index) =>
-    inCollection(index) && !savedRuns()[index]);
-  const collectionShortcut = collectionTarget === -1 ? featured : collectionTarget;
+  const featured = variantCount() - 1;
   app.innerHTML = `
     <section class="hero">
       <div class="hero-copy">
@@ -4261,13 +4323,13 @@ function renderMap(moveFocus = false) {
         <h1 tabindex="-1">Акванавты<span>${subject.title}</span></h1>
         <p>${subject.intro}</p>
         <div class="hero-controls">
-          ${completed && hasNextVariant() ? nextVariantButton : ''}
+          ${completed && hasNextVariant() ? nextVariantButton() : ''}
           <button class="${completed && hasNextVariant() ? 'quiet' : 'btn'}" id="start" type="button">${begin}</button>
           <button class="quiet" id="go-map" type="button">Карта погружения</button>
         </div>
-        ${!inCollection(variantIndex()) && !savedRuns()[collectionShortcut]?.retired ? `
+        ${!math && variantIndex() !== featured && !savedRuns()[featured]?.retired ? `
           <div class="hero-controls vpr-shortcuts">
-            <button type="button" class="quiet vpr-feature" data-variant="${collectionShortcut}">Миссия по сборникам</button>
+            <button type="button" class="quiet vpr-feature" data-variant="${featured}">Миссия по сборникам</button>
           </div>` : ''}
       </div>
       ${marineLife('hero-water')}
@@ -4277,21 +4339,21 @@ function renderMap(moveFocus = false) {
         <div><p class="kicker">Маршрут экспедиции</p><h2 id="map-title" tabindex="-1">Карта погружения</h2></div>
         ${math ? `<div class="route-tabs" role="group" aria-label="Сложность">${Object.entries(mathRouteNames).map(([id,name]) => `<button type="button" data-route="${id}" aria-pressed="${id === progress.route}">${name}</button>`).join('')}</div>` : ''}
       </div>
-      <p class="route-note">${routeNote} · Вариант ${variantIndex() + 1} из ${variantCount()} · Пройдено ${count} из ${totalTasks()}</p>
-      <div class="vpr-variants" role="group" aria-label="Игровые варианты">
+      <p class="route-note">${routeNote}${math ? '' : ` · Вариант ${variantIndex() + 1} из ${variantCount()}`} · Пройдено ${count} из ${totalTasks()}</p>
+      ${math ? '' : `<div class="vpr-variants" role="group" aria-label="Игровые варианты">
         ${taskBank[progress.route].map((_,index) => {
           const run = savedRuns()[index];
           const active = variantIndex() === index;
-          const label = inCollection(index) ? `${index+1} · По сборникам` : `${index+1}`;
+          const label = index === featured ? `${index+1} · По сборникам` : `${index+1}`;
           const status = active ? 'текущий' : run?.retired ? 'предыдущий' : run?.launched ? 'завершён' : run ? 'можно продолжить' : 'новый';
           return `<button type="button" class="quiet" data-variant="${index}" aria-label="Вариант ${label}, ${status}" aria-pressed="${active}" ${active || run?.retired ? 'disabled' : ''}>${label}${run?.launched ? ' ✓' : ''}</button>`;
         }).join('')}
-      </div>
-      ${started && !completed && hasNextVariant() ? `<div class="action-row variant-actions">${nextVariantButton}</div>` : ''}
-      ${completed && !hasNextVariant() ? '<p class="route-note">Новых вариантов для этого маршрута больше нет. Решения доступны в журнале.</p>' : ''}
+      </div>`}
+      ${!math && started && !completed && hasNextVariant() ? `<div class="action-row variant-actions">${nextVariantButton()}</div>` : ''}
+      ${completed && !hasNextVariant() ? `<p class="route-note">${math ? 'Все погружения на этом маршруте пройдены.' : 'Новых вариантов для этого маршрута больше нет. Решения доступны в журнале.'}</p>` : ''}
       <ol class="map">
         ${currentPlaces().map((place,i) => {
-          const finished = levelPassed(i);
+          const finished = levelPassed(i) && (!math || findStep(i) === -1);
           const current = i === next;
           return `<li><button type="button" class="node ${current ? 'current' : ''} ${finished ? 'done' : ''}" style="--scene-art:var(--art-${place.art ?? i})" data-sector="${i}" ${finished || current ? '' : 'disabled'}>
             <span class="node-top"><span class="node-icon" aria-hidden="true">${place.icon}</span><span class="node-depth">${place.depth}</span></span>
@@ -4435,7 +4497,7 @@ function renderTaskImages(question) {
 
 function renderTask(sector, step = findStep(sector)) {
   stopDictation?.();
-  if (step === -1) return renderChallenge(sector);
+  if (step === -1) return levelPassed(sector) ? startNext() : renderChallenge(sector);
   const q = currentRoute()[sector][step];
   const place = missionStage(sector);
   const id = key(sector,step);
@@ -4589,13 +4651,8 @@ function bindTask(question, entry, sector, step) {
   });
   function checkOrContinue() {
     if (entry.solved) {
-      if (findStep(sector) === -1) {
-        play('dive');
-        renderChallenge(sector);
-      } else {
-        play('dive');
-        renderTask(sector);
-      }
+      play('dive');
+      renderTask(sector);
       return;
     }
     const attempt = checkAnswer(question, panel, cells, order);
@@ -4641,7 +4698,7 @@ function bindTask(question, entry, sector, step) {
     app.querySelector(`[data-step="${key(sector,step)}"]`).classList.add('on');
     app.querySelector('#route-progress').textContent = `Пройдено ${solvedCount()} из ${totalTasks()}`;
     check.classList.add('gold');
-    check.textContent = findStep(sector) === -1 ? 'К испытанию' : 'Дальше';
+    check.textContent = findStep(sector) === -1 && !levelPassed(sector) ? 'К испытанию' : 'Дальше';
     check.focus({ preventScroll:true });
   }
   check.addEventListener('click', checkOrContinue);
@@ -4812,7 +4869,7 @@ function renderResults(showBeam = false) {
   app.innerHTML = `
     ${showBeam ? '<div class="fin-beam" aria-hidden="true"></div>' : ''}
     <section class="card centered">
-      <p class="kicker">${routeNames[progress.route]} · Вариант ${variantIndex() + 1} из ${variantCount()}</p>
+      <p class="kicker">${routeNames[progress.route]}${math ? '' : ` · Вариант ${variantIndex() + 1} из ${variantCount()}`}</p>
       <span class="reward-icon" aria-hidden="true">🏆</span>
       <h1 tabindex="-1">${ending?.result || (wordMission() ? 'Послание собрано!' : 'Маяк зажжён!')}</h1>
       <p>${ending?.finish || (wordMission() ? `<span${englishLang()}>«${currentPlaces().map(place => place.part).join(' ')}».</span> Послание прочитано, а Пузырь сохранил результаты в журнале экспедиции.` : 'Сигнал «Нереиды» снова слышен. Пузырь передал на поверхность отчёт о твоей экспедиции.')}</p>
@@ -4828,9 +4885,9 @@ function renderResults(showBeam = false) {
       <div class="action-row">
         <button type="button" class="btn" id="switch">${math ? routeNames[other] : 'К математике'}</button>
         ${mapButton}
-        ${hasNextVariant() ? nextVariantButton : ''}
+        ${hasNextVariant() ? nextVariantButton() : ''}
       </div>
-      ${hasNextVariant() ? '' : '<p class="route-note">Новых вариантов для этого маршрута больше нет.</p>'}
+      ${hasNextVariant() ? '' : `<p class="route-note">${math ? 'Все погружения на этом маршруте пройдены.' : 'Новых вариантов для этого маршрута больше нет.'}</p>`}
     </section>`;
   app.querySelector('#switch').addEventListener('click', () => selectRoute(other));
   bindNewVariant();
@@ -4838,6 +4895,8 @@ function renderResults(showBeam = false) {
   focusTitle();
 }
 
+if (!saved.integratedMath) migrateMathProgress();
+else progress.integratedMath = true;
 updateSound();
 updateMotion();
 save();
