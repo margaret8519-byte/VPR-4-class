@@ -887,12 +887,6 @@ body[data-subject="world"] .mission {
   .zone-photo figcaption { padding-inline:10px; }
 }
 
-#source-dialog { margin:auto; width:min(620px,calc(100% - 24px)); max-height:calc(100% - 24px); color:var(--ink); overflow:auto; }
-#source-dialog h2 { margin-bottom:12px; }
-#source-dialog::backdrop { background:#080d31d9; }
-#source-dialog a { color:#b8f6ff; text-underline-offset:.17em; }
-.vpr-source-list { list-style:none; margin:1rem 0; padding:0; display:grid; gap:6px; text-align:left; }
-.vpr-source-list li { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:8px 12px; border:1px solid #baefff55; border-radius:10px; background:#2b4878; }
 .vpr-shortcuts { margin-top:10px; }
 .vpr-shortcuts .vpr-feature { border-color:#ffe596; background:#473973; color:#fff4bd; }
 .vpr-variants { display:flex; flex-wrap:wrap; gap:7px; margin:0 0 15px; }
@@ -2173,11 +2167,6 @@ License: CC-BY-4.0
   <p>Испытание приносит 120 очков, жемчужина — ещё 40, а финал — 200. В «Трофеях» можно выбрать раскраску батискафа. Таймера нет.</p>
   <p>«Продолжить» открывает первое нерешённое задание. На карте можно сменить вариант и вернуться к начатому позже. Игра запоминает прогресс в этом браузере.</p>
   <button type="button" class="btn" id="close-help">Понятно</button>
-</dialog>
-<dialog id="source-dialog" class="card centered" aria-labelledby="source-heading">
-  <h2 id="source-heading">Оригиналы ВПР</h2>
-  <div id="source-contents"></div>
-  <button type="button" class="btn" id="close-sources" autofocus>Закрыть</button>
 </dialog>
 <dialog id="trophy-dialog" class="card centered" aria-labelledby="trophy-heading">
   <h2 id="trophy-heading">Трофеи экспедиции</h2>
@@ -3560,207 +3549,6 @@ function bindDictation(paragraphs) {
   };
 }
 
-const vprSources = {
-  "math": {
-    "publication": "OnlyEGE / Началка+",
-    "year": 2027,
-    "parent": "https://onlyege.ru/10-trenirovochnyx-variantov-vpr-2027-po-matematike-4-klass/",
-    "items": [
-      {
-        "label": "Вариант 1",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-1-vpr-2027-po-matematike-4-klass/"
-      },
-      {
-        "label": "Вариант 2",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-2-vpr-2027-po-matematike-4-klass/"
-      },
-      {
-        "label": "Вариант 3",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-3-vpr-2027-po-matematike-4-klass/"
-      },
-      {
-        "label": "Вариант 4",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-4-vpr-2027-po-matematike-4-klass/"
-      },
-      {
-        "label": "Вариант 5",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-5-vpr-2027-po-matematike-4-klass/"
-      },
-      {
-        "label": "Вариант 6",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-6-vpr-2027-po-matematike-4-klass/"
-      },
-      {
-        "label": "Вариант 7",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-7-vpr-2027-po-matematike-4-klass/"
-      },
-      {
-        "label": "Вариант 8",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-8-vpr-2027-po-matematike-4-klass/"
-      },
-      {
-        "label": "Вариант 9",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-9-vpr-2027-po-matematike-4-klass/"
-      },
-      {
-        "label": "Вариант 10",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-10-vpr-2027-po-matematike-4-klass/"
-      }
-    ]
-  },
-  "russian": {
-    "publication": "OnlyEGE / Началка+",
-    "year": 2027,
-    "parent": "https://onlyege.ru/10-trenirovochnyx-variantov-vpr-2027-po-russkomu-yazyku-4-klass/",
-    "items": [
-      {
-        "label": "Вариант 1",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-1-vpr-2027-po-russkomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 2",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-2-vpr-2027-po-russkomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 3",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-3-vpr-2027-po-russkomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 4",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-4-vpr-2027-po-russkomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 5",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-5-vpr-2027-po-russkomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 6",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-6-vpr-2027-po-russkomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 7",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-7-vpr-2027-po-russkomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 8",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-8-vpr-2027-po-russkomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 9",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-9-vpr-2027-po-russkomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 10",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-10-vpr-2027-po-russkomu-yazyku-4-klass/"
-      }
-    ]
-  },
-  "english": {
-    "publication": "OnlyEGE / Началка+",
-    "year": 2027,
-    "parent": "https://onlyege.ru/10-trenirovochnyx-variantov-vpr-2027-po-anglijskomu-yazyku-4-klass/",
-    "items": [
-      {
-        "label": "Вариант 1",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-1-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 2",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-2-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 3",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-3-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 4",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-4-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 5",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-5-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 6",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-6-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 7",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-7-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 8",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-8-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 9",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-9-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      },
-      {
-        "label": "Вариант 10",
-        "url": "https://nachalkaplus.ru/trenirovochnyj-variant-10-vpr-2027-po-anglijskomu-yazyku-4-klass/"
-      }
-    ]
-  },
-  "world": {
-    "publication": "ВПР-ЕГЭ",
-    "year": 2026,
-    "parent": "https://vpr-ege.ru/vpr/4-klass/okruzhayushchij-mir/3471-vpr-po-okruzhayushchemu-miru-4-klass-2026-varianty-i-otvety",
-    "items": [
-      {
-        "label": "Комплект 1 · вариант 1",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1_k1.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1-o_k1.pdf"
-      },
-      {
-        "label": "Комплект 1 · вариант 2",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2_k1.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2-o_k1.pdf"
-      },
-      {
-        "label": "Комплект 2 · вариант 1",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1_k2.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1-o_k2.pdf"
-      },
-      {
-        "label": "Комплект 2 · вариант 2",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2_k2.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2-o_k2.pdf"
-      },
-      {
-        "label": "Комплект 3 · вариант 1",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1_k3.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1-o_k3.pdf"
-      },
-      {
-        "label": "Комплект 3 · вариант 2",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2_k3.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2-o_k3.pdf"
-      },
-      {
-        "label": "Комплект 4 · вариант 1",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1_k4.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1-o_k4.pdf"
-      },
-      {
-        "label": "Комплект 4 · вариант 2",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2_k4.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2-o_k4.pdf"
-      },
-      {
-        "label": "Комплект 5 · вариант 1",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1_k5.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v1-o_k5.pdf"
-      },
-      {
-        "label": "Комплект 5 · вариант 2",
-        "url": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2_k5.pdf",
-        "key": "https://vpr-ege.ru/z6/vpr26-4kl-om-v2-o_k5.pdf"
-      }
-    ]
-  }
-};
-
 const taskBank = {
   basic: [routes.basic,...[1,2,3].map(n => mathVariant(n,false)),vprMath[0]],
   deep: [routes.deep,...[1,2,3].map(n => mathVariant(n,true)),vprMath[1]],
@@ -4199,8 +3987,6 @@ const findSector = () => currentPlaces().findIndex((_,sector) => !levelPassed(se
 const solvedCount = () => currentRoute().reduce((sum, tasks, sector) => sum + tasks.filter((_, step) => done(sector,step)).length,0);
 const mapButton = '<button type="button" class="quiet" id="to-map">К карте</button>';
 const nextVariantButton = '<button type="button" class="btn gold" id="new-variant">Новый вариант</button>';
-const sourceDialog = document.querySelector('#source-dialog');
-document.querySelector('#close-sources').addEventListener('click',() => sourceDialog.close());
 
 function openVariant(index) {
   const route = progress.route;
@@ -4219,17 +4005,6 @@ function openVariant(index) {
 
 function bindNewVariant() {
   app.querySelector('#new-variant')?.addEventListener('click',() => openVariant(nextVariantIndex()));
-}
-
-function showSources() {
-  const {publication,year,parent,items} = vprSources[subjectId()];
-  document.querySelector('#source-contents').innerHTML = `
-    <p>${currentSubject().label} · ${year} · ${publication}</p>
-    <ol class="vpr-source-list">${items.map(({label,url,key}) =>
-      `<li><a href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>
-        ${key ? `<a href="${key}" target="_blank" rel="noopener noreferrer" aria-label="${label}: ответы">Ответы</a>` : ''}</li>`).join('')}</ol>
-    <p><a href="${parent}" target="_blank" rel="noopener noreferrer">Страница подборки</a></p>`;
-  sourceDialog.showModal();
 }
 
 function selectRoute(route, moveFocus = true) {
@@ -4290,10 +4065,10 @@ function renderMap(moveFocus = false) {
           <button class="${completed && hasNextVariant() ? 'quiet' : 'btn'}" id="start" type="button">${begin}</button>
           <button class="quiet" id="go-map" type="button">Карта погружения</button>
         </div>
-        <div class="hero-controls vpr-shortcuts">
-          ${variantIndex() !== featured ? `<button type="button" class="quiet vpr-feature" data-variant="${featured}">Миссия по сборникам</button>` : ''}
-          <button type="button" class="quiet" id="vpr-sources">Оригиналы ВПР</button>
-        </div>
+        ${variantIndex() !== featured ? `
+          <div class="hero-controls vpr-shortcuts">
+            <button type="button" class="quiet vpr-feature" data-variant="${featured}">Миссия по сборникам</button>
+          </div>` : ''}
       </div>
       ${marineLife('hero-water')}
     </section>
@@ -4326,7 +4101,6 @@ function renderMap(moveFocus = false) {
       </ol>
     </section>`;
   app.querySelector('#start').addEventListener('click', startNext);
-  app.querySelector('#vpr-sources').addEventListener('click',showSources);
   for (const button of app.querySelectorAll('[data-variant]')) {
     button.addEventListener('click',() => openVariant(Number(button.dataset.variant)));
   }
